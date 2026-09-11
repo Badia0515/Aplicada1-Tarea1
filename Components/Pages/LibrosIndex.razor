@@ -1,0 +1,58 @@
+﻿@using Tarea1.Service
+@using Tarea1.Models
+@page "/"
+@page "/Libros"
+@inject LibrosService librosService
+
+
+
+<PageTitle>Consultar Libros</PageTitle>
+
+<div class="container"> 
+    <h1 class="text-center">Consultar Libros</h1>
+    <div class="card border-4"> 
+        <div class="card-header">
+            <label>Ingrese ID de libro</label>
+                <input type="text" style="width:100px;">
+                <button class="btn btn-primary">Buscar</button>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered"> 
+                <thead>
+                    <tr>
+                        <th>Id</th> 
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>año</th>
+                        <th>Genero</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var Libros in libros)
+                    {
+                        <tr>
+                            <td>@Libros.IdLibro</td>
+                            <td>@Libros.Titulo</td>
+                            <td>@Libros.Autor</td>
+                            <td>@Libros.Anio</td>
+                            <td>@Libros.Genero</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+   
+
+
+</div>
+
+@code{
+
+    public List<Libros> libros { get; set; } = [];
+
+}
