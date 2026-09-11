@@ -8,7 +8,7 @@ namespace Tarea1.Service;
 public class LibrosService(IDbContextFactory<LibrosContext> contextFactory) : IService<Libros, int>
 {
 
-public async Task<bool> Guardar(Libros libro)
+    public async Task<bool> Guardar(Libros libro)
     {
         await using var context = await contextFactory.CreateDbContextAsync();
         context.Libros.Add(libro);
@@ -34,8 +34,15 @@ public async Task<bool> Guardar(Libros libro)
        await using var context = await contextFactory.CreateDbContextAsync();
         return await context.Libros.Where(Lista).AsNoTracking().ToListAsync();
     }
+    public async Task<bool> Editar(Libros libro)
+    {
+        await using var context = await contextFactory.CreateDbContextAsync();
+        context.Libros.Update(libro);
+        return await context.SaveChangesAsync() > 0;
+    }
 
-    
+
+
 }
 
 

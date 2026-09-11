@@ -1,5 +1,6 @@
 ﻿@using Tarea1.Service
 @using Tarea1.Models
+@using Microsoft.EntityFrameworkCore;
 @page "/"
 @page "/Libros"
 @inject LibrosService librosService
@@ -12,20 +13,30 @@
     <h1 class="text-center">Consultar Libros</h1>
     <div class="card border-4"> 
         <div class="card-header">
-            <label>Ingrese ID de libro</label>
+            <div>
+                <label>Filtar Por</label>
+                <select>
+                    <option>ID</option>
+                    <option>Titulo</option>
+                    <option>Autor</option>
+                    <option>Año</option>
+                </select>
+                <label>Ingrese ID de libro</label>
                 <input type="text" style="width:100px;">
-                <button class="btn btn-primary">Buscar</button>
+                <button class="btn btn-primary" @onclick="BuscarFiltro">Buscar</button>
+            </div>
+            
         </div>
 
         <div class="card-body">
             <table class="table table-bordered"> 
                 <thead>
                     <tr>
-                        <th>Id</th> 
+                        <th>ID</th> 
                         <th>Titulo</th>
                         <th>Autor</th>
-                        <th>año</th>
-                        <th>Genero</th>
+                        <th>Año</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,7 +47,9 @@
                             <td>@Libros.Titulo</td>
                             <td>@Libros.Autor</td>
                             <td>@Libros.Anio</td>
-                            <td>@Libros.Genero</td>
+                            <button class="btn btn-primary">Eliminar</button>
+                            <button class="btn btn-warning">Editar</button>
+                            
                         </tr>
                     }
 
@@ -54,5 +67,53 @@
 @code{
 
     public List<Libros> libros { get; set; } = [];
+    public string Filtro { get; set; } = string.Empty;
+    public string ValorFiltro { get; set; } = string.Empty;
+    Libros EditarLibro = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        libros = await librosService.GetList(L => true);
+
+    }
+
+    private async Task BuscarFiltro()
+    {
+        if(ValorFiltro.Trim() != "")
+        {
+            if(Filtro == "Autor")
+            {
+                libros = await librosService.GetList(L => L.Autor.Contains(ValorFiltro));
+            }
+            if (Filtro == "Año")
+            {
+                libros = await librosService.GetList(L => L.Anio.Contains(ValorFiltro));
+            }
+            if (Filtro == "ID")
+            {
+                int.TryParse(ValorFiltro, out int Id);
+                libros = await librosService.GetList(L => L.IdLibro == Id);
+            }
+
+        }
+
+    }
+    public async Task Eliminar(int id)
+    {
+        await librosService.Eliminar(id);
+        libros = await librosService.GetList(L => true);
+    }
+    public async Task Editar(int id)
+    {
+        var libros = await librosService.Buscar(id);
+
+        if(libros != null)
+        {
+            EditarLibro = libros;
+        }
+
+    }
+
 
 }

@@ -9,6 +9,5 @@ namespace Tarea1.Models;
         public string Titulo { get; set; }
         public string Autor { get; set; }
         public string Anio { get; set;  }
-        public string Genero { get; set; }
     }
 
