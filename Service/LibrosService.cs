@@ -34,6 +34,7 @@ public class LibrosService(IDbContextFactory<LibrosContext> contextFactory) : IS
        await using var context = await contextFactory.CreateDbContextAsync();
         return await context.Libros.Where(Lista).AsNoTracking().ToListAsync();
     }
+    
     public async Task<bool> Editar(Libros libro)
     {
         await using var context = await contextFactory.CreateDbContextAsync();

@@ -1,5 +1,8 @@
 ﻿@page "/counter"
 @page "/Registro"
+@using Tarea1.Models
+@using Tarea1.Service
+@inject LibrosService librosService
 
 
 <PageTitle>Formulario de Libros</PageTitle>
@@ -7,28 +10,50 @@
 <div class="container">
     <h1 class="text-center">Registro de Libros</h1>
     <div class="card-header">
-        
-    <div class="card border-4">
-            <div>
+        <div class="card border-4" style="width:500px; margin:auto">
+            <div class="text-center ">
                 <label class="text-center">Complete los siguientes datos</label>
                 <br/>
                 <label>Titulo</label>
-                <input class="text" />
                 <br />
-                <label> Año</label>
-                <input class="text" />
+                <input class="text" @bind="libros.Titulo" />
+                <br />
+                <label> Año de Publicacion</label>
+                <br />
+                <input class="number" @bind="libros.Anio" />
                 <br />
                 <label>Autor</label>
-                <input class="text" />
                 <br />
-                <label>Genero</label>
-                <input class="text" />
+                <input class="text" @bind="libros.Autor" />
+                <br />
+           
 
             </div>
+
+            <br />
+          <div style="margin-left:150px">
+
+                <button class="btn btn-success"> Consultar</button>
+                <button class="btn btn-primary" @onclick="Guardar"> Guardar </button>
+
+            
+          </div>
+          <br />
+           
     </div>
 
     </div>
 </div>
+
+@code{
+
+    public Libros libros { get; set; } = new();
+
+    private async Task Guardar()
+    {
+        await librosService.Guardar(libros);
+    }
+}
 
 
 

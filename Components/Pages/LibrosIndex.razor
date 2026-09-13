@@ -23,7 +23,9 @@
                 </select>
                 <label>Ingrese ID de libro</label>
                 <input type="text" style="width:100px;">
-                <button class="btn btn-primary" @onclick="BuscarFiltro">Buscar</button>
+      
+                <button class="btn btn-primary" @onclick="BuscarFiltro" style="margin-left:700px">Buscar</button>
+               
             </div>
             
         </div>
@@ -47,14 +49,18 @@
                             <td>@Libros.Titulo</td>
                             <td>@Libros.Autor</td>
                             <td>@Libros.Anio</td>
-                            <button class="btn btn-primary">Eliminar</button>
-                            <button class="btn btn-warning">Editar</button>
+                            <button class="btn btn-primary"@onclick="()=> Eliminar(Libros.IdLibro)">Eliminar</button>
+                            <button class="btn btn-warning" @onclick="() => Editar(Libros.IdLibro)">Editar</button>
                             
                         </tr>
                     }
 
                 </tbody>
             </table>
+            <div>
+                <h14>Cantidad de libros: @libros.Count</h14>
+
+            </div>
         </div>
 
 
@@ -86,8 +92,8 @@
             {
                 libros = await librosService.GetList(L => L.Autor.Contains(ValorFiltro));
             }
-            if (Filtro == "Año")
-            {
+            if (Filtro == "Año"){
+
                 libros = await librosService.GetList(L => L.Anio.Contains(ValorFiltro));
             }
             if (Filtro == "ID")
@@ -99,11 +105,13 @@
         }
 
     }
+
     public async Task Eliminar(int id)
     {
         await librosService.Eliminar(id);
         libros = await librosService.GetList(L => true);
     }
+
     public async Task Editar(int id)
     {
         var libros = await librosService.Buscar(id);
@@ -114,6 +122,9 @@
         }
 
     }
+    
+
+    
 
 
 }
