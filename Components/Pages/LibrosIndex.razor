@@ -4,6 +4,8 @@
 @page "/"
 @page "/Libros"
 @inject LibrosService librosService
+@rendermode InteractiveServer
+@inject NavigationManager Navegacion
 
 
 
@@ -15,16 +17,15 @@
         <div class="card-header">
             <div>
                 <label>Filtar Por</label>
-                <select>
+                <select @bind="Filtro">
                     <option>ID</option>
                     <option>Titulo</option>
                     <option>Autor</option>
                     <option>Año</option>
                 </select>
                 <label>Ingrese ID de libro</label>
-                <input type="text" style="width:100px;">
-      
-                <button class="btn btn-primary" @onclick="BuscarFiltro" style="margin-left:700px">Buscar</button>
+                <input type="text" style="width:100px;" @bind="ValorFiltro" >
+                <button class="btn btn-primary" @onclick="BuscarFiltro" style="margin-left:300px">Buscar</button>
                
             </div>
             
@@ -49,8 +50,8 @@
                             <td>@Libros.Titulo</td>
                             <td>@Libros.Autor</td>
                             <td>@Libros.Anio</td>
-                            <button class="btn btn-primary"@onclick="()=> Eliminar(Libros.IdLibro)">Eliminar</button>
-                            <button class="btn btn-warning" @onclick="() => Editar(Libros.IdLibro)">Editar</button>
+                            <button class="btn btn-secondary"@onclick="()=> Eliminar(Libros.IdLibro)">Eliminar</button>
+                            <button class="btn btn-warning" @onclick="()=> Editar(Libros.IdLibro)">Editar</button>
                             
                         </tr>
                     }
@@ -75,7 +76,7 @@
     public List<Libros> libros { get; set; } = [];
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
-    Libros EditarLibro = new();
+
 
 
     protected override async Task OnInitializedAsync()
@@ -111,17 +112,12 @@
         await librosService.Eliminar(id);
         libros = await librosService.GetList(L => true);
     }
-
-    public async Task Editar(int id)
+    public void Editar(int id)
     {
-        var libros = await librosService.Buscar(id);
-
-        if(libros != null)
-        {
-            EditarLibro = libros;
-        }
-
+        Navegacion.NavigateTo($"/Registro/{id}");
     }
+
+    
     
 
     

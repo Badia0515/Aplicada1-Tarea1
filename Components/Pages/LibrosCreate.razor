@@ -1,8 +1,11 @@
 ﻿@page "/counter"
 @page "/Registro"
+@rendermode InteractiveServer
 @using Tarea1.Models
 @using Tarea1.Service
 @inject LibrosService librosService
+@inject NavigationManager Navegacion
+
 
 
 <PageTitle>Formulario de Libros</PageTitle>
@@ -14,6 +17,7 @@
             <div class="text-center ">
                 <label class="text-center">Complete los siguientes datos</label>
                 <br/>
+               
                 <label>Titulo</label>
                 <br />
                 <input class="text" @bind="libros.Titulo" />
@@ -29,17 +33,24 @@
            
 
             </div>
-
-            <br />
+            @if(Mensaje != "")
+            {
+                <h7 class="text-center" style="color:green">@Mensaje</h7>
+            }
+            else
+            {
+                <h7 class="text-center" style="color:red">@MensajeError</h7>
+            }
           <div style="margin-left:150px">
 
-                <button class="btn btn-success"> Consultar</button>
+                <button class="btn btn-success" @onclick="Consultar"> Consultar</button>
                 <button class="btn btn-primary" @onclick="Guardar"> Guardar </button>
 
             
           </div>
           <br />
-           
+            
+
     </div>
 
     </div>
@@ -47,11 +58,34 @@
 
 @code{
 
+
     public Libros libros { get; set; } = new();
+    Libros librosEditar { get; set; } = new();
+    public string Mensaje= "";
+    public string MensajeError= "";
 
     private async Task Guardar()
     {
+        var existe = await librosService.GetList(L => L.Titulo == libros.Titulo);
+        if (existe.Count > 0)
+        {
+            MensajeError = "No se puede Guardar el mismo titulo";
+            return;
+        }
         await librosService.Guardar(libros);
+        Mensaje = "Se Guardo Correctamente";
+    }
+
+    private void Consultar()
+    {
+        Navegacion.NavigateTo("/Libros");
+    }
+    public async Task Editar(int id)
+    {
+        var lista = await librosService.GetList(L => L.IdLibro == id);
+        librosEditar = lista.First();
+
+
     }
 }
 
