@@ -14,6 +14,7 @@
     <h1 class="text-center">Consultar Libros</h1>
     <div class="card border-4"> 
         <div class="card-header">
+            @* Filtro*@
             <div>
                 <label>Filtar Por</label>
                 <select @bind="Filtro">
@@ -22,7 +23,8 @@
                     <option>Autor</option>
                     <option>Año</option>
                 </select>
-                <label>Ingrese ID de libro</label>
+                @*barra de ingresar datos para buscar libros*@
+                <label> Ingrese los datos de busquedad</label>
                 <input type="text" style="width:100px;" @bind="ValorFiltro" >
                 <button class="btn btn-primary" @onclick="BuscarFiltro" style="margin-left:300px">Buscar</button>
                
@@ -31,6 +33,7 @@
         </div>
 
         <div class="card-body">
+            @*forma de la tabla *@
             <table class="table table-bordered"> 
                 <thead>
                     <tr>
@@ -42,6 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @*para mostrar los datos de la tabla *@
                     @foreach(var Libros in libros)
                     {
                         <tr>
@@ -62,10 +66,34 @@
 
             </div>
         </div>
+        
 
 
     </div>
-   
+    @*Panel de editar libros*@
+    <div>
+        @if (Panel == true)
+        {
+            <div class="card ; text-center">
+                <div class="card border-4" style="width:400px;">
+                    <h4 class="text-center">Modo de edicion</h4>
+                    <label> Titulo</label>
+                    <input class="text" @bind="EditarLibro.Titulo" />
+                    <label> Año de publicacion</label>
+                    <input class="text"@bind="EditarLibro.Anio" />
+                    <label> Autor</label>
+                    <input class="text" @bind="EditarLibro.Autor"/>
+                    
+                    <div>
+                        <button class="btn btn-success" @onclick="() => Panel = false">Volver</button>
+                    <button class="btn btn-primary" @onclick="GuardarEdicion"> Guardar</button>
+                </div>
+
+                </div>
+                
+            </div>
+        }
+    </div>
 
 
 </div>
@@ -75,6 +103,9 @@
     public List<Libros> libros { get; set; } = [];
     public string Filtro { get; set; } = string.Empty;
     public string ValorFiltro { get; set; } = string.Empty;
+    public Libros EditarLibro { get; set; } = new();
+
+    public bool Panel = false;
 
 
 
@@ -111,9 +142,21 @@
         await librosService.Eliminar(id);
         libros = await librosService.GetList(L => true);
     }
-    public void Editar(int id)
+
+    public async Task Editar(int id)
     {
-        Navegacion.NavigateTo($"/Registro/{id}");
+        var libros = await librosService.Buscar(id);
+        if(libros != null)
+        {
+            EditarLibro = libros;
+            Panel = true;
+        }
+    }
+    public async Task GuardarEdicion()
+    {
+        await librosService.Editar(EditarLibro);
+        libros = await librosService.GetList(l=> true);
+        Panel = false;
     }
 
     

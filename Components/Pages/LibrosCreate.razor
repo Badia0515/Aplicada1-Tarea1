@@ -1,5 +1,5 @@
 ﻿@page "/counter"
-@page "/Registro/{id:int}"
+@page "/Registro"
 @rendermode InteractiveServer
 @using Tarea1.Models
 @using Tarea1.Service
@@ -10,6 +10,7 @@
 
 <PageTitle>Formulario de Libros</PageTitle>
 
+@*Panel de registra *@
 <div class="container">
     <h1 class="text-center">Registro de Libros</h1>
     <div class="card-header">
@@ -32,6 +33,7 @@
                 <br />
            
 
+                @*Mostrar el mensaje de confimacion*@
             </div>
             @if(Mensaje != "")
             {
@@ -64,18 +66,6 @@
     public string Mensaje= "";
     public string MensajeError= "";
 
-    [Parameter]
-    public int id { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var lista=await librosService.GetList(L=>L.IdLibro==id);
-        if (lista.Count > 0)
-        {
-            libros = lista.First();
-        }
-
-    }
 
     private async Task Guardar()
     {
