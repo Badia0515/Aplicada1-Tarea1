@@ -1,5 +1,5 @@
 ﻿@page "/counter"
-@page "/Registro"
+@page "/Registro/{id:int}"
 @rendermode InteractiveServer
 @using Tarea1.Models
 @using Tarea1.Service
@@ -63,6 +63,19 @@
     Libros librosEditar { get; set; } = new();
     public string Mensaje= "";
     public string MensajeError= "";
+
+    [Parameter]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var lista=await librosService.GetList(L=>L.IdLibro==id);
+        if (lista.Count > 0)
+        {
+            libros = lista.First();
+        }
+
+    }
 
     private async Task Guardar()
     {
