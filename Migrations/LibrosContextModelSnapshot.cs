@@ -8,7 +8,7 @@ using Tarea1.Context;
 
 namespace Tarea1.Migrations
 {
-    [DbContext(typeof(LibrosContext))]
+    [DbContext(typeof(EstudianteContext))]
     partial class LibrosContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

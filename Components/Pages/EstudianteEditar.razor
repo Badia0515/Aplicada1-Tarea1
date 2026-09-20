@@ -1,0 +1,76 @@
+﻿@page "/Edicion/{id:int}"
+@using Tarea2.Models
+@using Tarea2.Service
+@inject EstudianteService estudianteService;
+@rendermode InteractiveServer
+@inject NavigationManager navegacion
+
+<PageTitle>Modo Edicion</PageTitle>
+
+<div class="container">
+    <div class=" card border-4" style="width:400px; margin:auto; height:240px">
+        <div class="text-center">
+            <h5>Modo Edicion</h5>
+            <label>Nombre</label>
+            <input class="text" @bind="estudianteEdicion.Nombre" />
+            <br />
+            <label>Dirrecion</label>
+            <input class="text" @bind="estudianteEdicion.Dirrecion" />
+            <br />
+            <label>Email</label>
+            <input class="text" @bind="estudianteEdicion.Email" />
+            <br />
+            <label>Fecha de Nacimiento</label>
+            <input class="text" @bind="estudianteEdicion.FechaNacimiento" />
+            <br />
+            <br />
+            <button class="btn btn-warning" @onclick="Navegacion">Consultar</button>
+            <button class="btn btn-primary" @onclick="GuardarEdicion">Guardar</button>
+
+     
+
+            
+
+        </div>
+
+       
+    </div>
+
+</div>
+
+
+@code {
+    Estudiantes estudianteEdicion { get; set; } = new();
+    public List<Estudiantes> Estudiantes { get; set; } = [];
+
+    [Parameter]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Edicion(id);
+    }
+
+
+    public async Task Edicion(int id)
+    {
+        var Estudiante = await estudianteService.Buscar(id);
+        if (Estudiante != null)
+        {
+            estudianteEdicion = Estudiante;
+        }
+    }
+
+    public async Task GuardarEdicion()
+    {
+        await estudianteService.Editar(estudianteEdicion);
+        Estudiantes = await estudianteService.GetList(L => true);
+
+    }
+
+    public void Navegacion()
+    {
+        navegacion.NavigateTo("/");
+    }
+
+}

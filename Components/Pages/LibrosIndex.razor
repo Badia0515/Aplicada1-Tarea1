@@ -1,168 +1,109 @@
-﻿@using Tarea1.Service
-@using Tarea1.Models
-@page "/"
-@page "/Libros"
-@inject LibrosService librosService
+﻿@page "/"
+@using Tarea2.Models;
+@using Tarea2.Service;
+@inject EstudianteService estudianteService;
 @rendermode InteractiveServer
-@inject NavigationManager Navegacion
+@inject NavigationManager navegation
 
+<PageTitle>Consultar Estudiante</PageTitle>
 
-
-<PageTitle>Consultar Libros</PageTitle>
-
-<div class="container"> 
-    <h1 class="text-center">Consultar Libros</h1>
-    <div class="card border-4"> 
-        <div class="card-header">
-            @* Filtro*@
+<div class="container">
+    <div class="card border-4">
+        <div>
+            <h4 class="text-center">Consultar Estudiante</h4>
+        </div>
+        <div class="card border-4">
             <div>
-                <label>Filtar Por</label>
-                <select @bind="Filtro">
+                <label>Filtrar</label>
+                <select style="width:75px;" @bind="filtar">
                     <option>ID</option>
-                    <option>Titulo</option>
-                    <option>Autor</option>
-                    <option>Año</option>
+                    <option>Nombre</option>
+                    <option>Direccion</option>
+                    <option>Email</option>
                 </select>
-                @*barra de ingresar datos para buscar libros*@
-                <label> Ingrese los datos de busquedad</label>
-                <input type="text" style="width:100px;" @bind="ValorFiltro" >
-                <button class="btn btn-primary" @onclick="BuscarFiltro" style="margin-left:300px">Buscar</button>
-               
+                <label>Busquedad</label>
+                <input class="text" @bind="ValorFiltar" />
+                <button class="btn btn-primary" style="margin-left:350px" @onclick="Filtrar">Buscar</button>
             </div>
-            
         </div>
-
-        <div class="card-body">
-            @*forma de la tabla *@
-            <table class="table table-bordered"> 
-                <thead>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Dirrecion</th>
+                    <th>Email</th>
+                    <th>Fecha de Nacimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Estudiante in estudiantes)
+                {
                     <tr>
-                        <th>ID</th> 
-                        <th>Titulo</th>
-                        <th>Autor</th>
-                        <th>Año</th>
-                        <th>Opciones</th>
+                        <th>@Estudiante.EstudianteId</th>
+                        <th>@Estudiante.Nombre</th>
+                        <th>@Estudiante.Dirrecion</th>
+                        <th>@Estudiante.Email</th>
+                        <th>@Estudiante.FechaNacimiento</th>
+                        <butto class="btn btn-warning" @onclick="() => EliminarEstudiante(Estudiante.EstudianteId)">Eliminar</butto>
+                        <butto class="btn btn-danger" @onclick="() => PaginaEditar(Estudiante.EstudianteId)">Editar</butto>
                     </tr>
-                </thead>
-                <tbody>
-                    @*para mostrar los datos de la tabla *@
-                    @foreach(var Libros in libros)
-                    {
-                        <tr>
-                            <td>@Libros.IdLibro</td>
-                            <td>@Libros.Titulo</td>
-                            <td>@Libros.Autor</td>
-                            <td>@Libros.Anio</td>
-                            <button class="btn btn-secondary"@onclick="()=> Eliminar(Libros.IdLibro)">Eliminar</button>
-                            <button class="btn btn-warning" @onclick="()=> Editar(Libros.IdLibro)">Editar</button>
-                            
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-            <div>
-                <h14>Cantidad de libros: @libros.Count</h14>
-
-            </div>
+                }
+            </tbody>
+        </table>
+        <div>
         </div>
-        
-
-
     </div>
-    @*Panel de editar libros*@
-    <div>
-        @if (Panel == true)
-        {
-            <div class="card ; text-center">
-                <div class="card border-4" style="width:400px;">
-                    <h4 class="text-center">Modo de edicion</h4>
-                    <label> Titulo</label>
-                    <input class="text" @bind="EditarLibro.Titulo" />
-                    <label> Año de publicacion</label>
-                    <input class="text"@bind="EditarLibro.Anio" />
-                    <label> Autor</label>
-                    <input class="text" @bind="EditarLibro.Autor"/>
-                    
-                    <div>
-                        <button class="btn btn-success" @onclick="() => Panel = false">Volver</button>
-                    <button class="btn btn-primary" @onclick="GuardarEdicion"> Guardar</button>
-                </div>
-
-                </div>
-                
-            </div>
-        }
-    </div>
-
-
 </div>
 
-@code{
+@code {
 
-    public List<Libros> libros { get; set; } = [];
-    public string Filtro { get; set; } = string.Empty;
-    public string ValorFiltro { get; set; } = string.Empty;
-    public Libros EditarLibro { get; set; } = new();
-
-    public bool Panel = false;
-
-
+    public List<Estudiantes> estudiantes = [];
+    public string filtar { get; set; } = string.Empty;
+    public string ValorFiltar { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        libros = await librosService.GetList(L => true);
-
+        estudiantes = await estudianteService.GetList(L => true);
     }
 
-    private async Task BuscarFiltro()
+    public async Task Filtrar()
     {
-        if(ValorFiltro.Trim() != "")
+        if (ValorFiltar.Trim() != "")
         {
-            if(Filtro == "Autor")
+            if (filtar == "ID")
             {
-                libros = await librosService.GetList(L => L.Autor.Contains(ValorFiltro));
+                int.TryParse(ValorFiltar, out int id);
+                estudiantes = await estudianteService.GetList(L => L.EstudianteId == id);
             }
-            if (Filtro == "Año"){
-
-                libros = await librosService.GetList(L => L.Anio.Contains(ValorFiltro));
-            }
-            if (Filtro == "ID")
+            if (filtar == "Nombre")
             {
-                int.TryParse(ValorFiltro, out int Id);
-                libros = await librosService.GetList(L => L.IdLibro == Id);
+                estudiantes = await estudianteService.GetList(L => L.Nombre.Contains(ValorFiltar));
+            }
+            if (filtar == "Direccion")
+            {
+                estudiantes = await estudianteService.GetList(L => L.Dirrecion.Contains(ValorFiltar));
+            }
+            if (filtar == "Email")
+            {
+                estudiantes = await estudianteService.GetList(L => L.Email.Contains(ValorFiltar));
             }
 
         }
 
     }
-
-    public async Task Eliminar(int id)
+    public async Task EliminarEstudiante(int id)
     {
-        await librosService.Eliminar(id);
-        libros = await librosService.GetList(L => true);
+        await estudianteService.Eliminar(id);
+        estudiantes = await estudianteService.GetList(L => true);
+
+    }
+    public void PaginaEditar(int id)
+    {
+        navegation.NavigateTo($"/Edicion/{id}");
+
     }
 
-    public async Task Editar(int id)
-    {
-        var libros = await librosService.Buscar(id);
-        if(libros != null)
-        {
-            EditarLibro = libros;
-            Panel = true;
-        }
-    }
-    public async Task GuardarEdicion()
-    {
-        await librosService.Editar(EditarLibro);
-        libros = await librosService.GetList(l=> true);
-        Panel = false;
-    }
-
-    
-    
-
-    
-
-
+   
+   
 }

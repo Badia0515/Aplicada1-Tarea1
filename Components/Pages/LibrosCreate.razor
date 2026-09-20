@@ -1,98 +1,55 @@
 ﻿@page "/counter"
-@page "/Registro"
+@using Tarea2.Models
+@using Tarea2.Service
+@inject EstudianteService estudinateService;
 @rendermode InteractiveServer
-@using Tarea1.Models
-@using Tarea1.Service
-@inject LibrosService librosService
-@inject NavigationManager Navegacion
+@inject NavigationManager navegation
 
+<PageTitle>Crear Estudiante</PageTitle>
 
-
-<PageTitle>Formulario de Libros</PageTitle>
-
-@*Panel de registra *@
 <div class="container">
-    <h1 class="text-center">Registro de Libros</h1>
-    <div class="card-header">
-        <div class="card border-4" style="width:500px; margin:auto">
-            <div class="text-center ">
-                <label class="text-center">Complete los siguientes datos</label>
-                <br/>
-               
-                <label>Titulo</label>
-                <br />
-                <input class="text" @bind="libros.Titulo" />
-                <br />
-                <label> Año de Publicacion</label>
-                <br />
-                <input class="number" @bind="libros.Anio" />
-                <br />
-                <label>Autor</label>
-                <br />
-                <input class="text" @bind="libros.Autor" />
-                <br />
-           
-
-                @*Mostrar el mensaje de confimacion*@
-            </div>
-            @if(Mensaje != "")
-            {
-                <h7 class="text-center" style="color:green">@Mensaje</h7>
-            }
-            else
-            {
-                <h7 class="text-center" style="color:red">@MensajeError</h7>
-            }
-          <div style="margin-left:150px">
-
-                <button class="btn btn-success" @onclick="Consultar"> Consultar</button>
-                <button class="btn btn-primary" @onclick="Guardar"> Guardar </button>
+    <div class=" card border-4" style="width:400px; margin:auto; height:240px">
+        <div class="text-center">
+            <h5>Crear Estudiante</h5>
+            <label>Nombre</label>
+            <input class="text" @bind="estudiante.Nombre" />
+            <br />
+            <label>Dirrecion</label>
+            <input class="text" @bind="estudiante.Dirrecion" />
+            <br />
+            <label>Email</label>
+            <input class="text" @bind="estudiante.Email" />
+            <br />
+            <label>Fecha de Nacimiento</label>
+            <input class="text" @bind="estudiante.FechaNacimiento" />
+            <h2 class="text-center" style="color: red">@Mesaje</h2>
+            <br />
+            <button class="btn btn-warning" @onclick="Navegacion">Consultar</button>
+            <button class="btn btn-primary" @onclick="Guardar">Guardar</button>
 
             
-          </div>
-          <br />
-            
-
-    </div>
-
+        </div>
     </div>
 </div>
 
-@code{
+@code {
+    public Estudiantes estudiante { get; set; } = new();
+    public string Mesaje { get; set; }
 
-
-    public Libros libros { get; set; } = new();
-    Libros librosEditar { get; set; } = new();
-    public string Mensaje= "";
-    public string MensajeError= "";
-
-
-    private async Task Guardar()
+    public async Task Guardar()
     {
-        var existe = await librosService.GetList(L => L.Titulo == libros.Titulo);
-        if (existe.Count > 0)
+        var Exixte = await estudinateService.GetList(L => L.Nombre == estudiante.Nombre);
+        if (Exixte.Count > 0)
         {
-            MensajeError = "No se puede Guardar el mismo titulo";
-            return;
+            Mesaje = "Ya el nombre esta registro".ToUpper();
         }
-        await librosService.Guardar(libros);
-        Mensaje = "Se Guardo Correctamente";
+        await estudinateService.Guardar(estudiante);
     }
-
-    private void Consultar()
+    public void Navegacion()
     {
-        Navegacion.NavigateTo("/Libros");
+        navegation.NavigateTo("/");
     }
-    public async Task Editar(int id)
-    {
-        var lista = await librosService.GetList(L => L.IdLibro == id);
-        librosEditar = lista.First();
 
-
-    }
 }
-
-
-
 
 

@@ -9,7 +9,7 @@ using Tarea1.Context;
 
 namespace Tarea1.Migrations
 {
-    [DbContext(typeof(LibrosContext))]
+    [DbContext(typeof(EstudianteContext))]
     [Migration("20260912023639_inicial")]
     partial class inicial
     {
