@@ -1,0 +1,54 @@
+﻿@page "/counter"
+@using Tarea1.Models
+@using Tarea1.Service
+@inject EstudianteService estudinateService;
+@rendermode InteractiveServer
+@inject NavigationManager navegation
+
+<PageTitle>Crear Estudiante</PageTitle>
+
+<div class="container">
+    <div class=" card border-4" style="width:400px; margin:auto; height:240px">
+        <div class="text-center">
+            <h5>Crear Estudiante</h5>
+            <label>Nombre</label>
+            <input class="text" @bind="estudiante.Nombre" />
+            <br />
+            <label>Dirrecion</label>
+            <input class="text" @bind="estudiante.Dirrecion" />
+            <br />
+            <label>Email</label>
+            <input class="text" @bind="estudiante.Email" />
+            <br />
+            <label>Fecha de Nacimiento</label>
+            <input class="text" @bind="estudiante.FechaNacimiento" />
+            <h2 class="text-center" style="color: red">@Mesaje</h2>
+            <br />
+            <button class="btn btn-warning" @onclick="Navegacion">Consultar</button>
+            <button class="btn btn-primary" @onclick="Guardar">Guardar</button>
+
+            
+        </div>
+    </div>
+</div>
+
+@code {
+    public Estudiante estudiante { get; set; } = new();
+    public string Mesaje { get; set; }
+
+    public async Task Guardar()
+    {
+        var Exixte = await estudinateService.GetList(L => L.Nombre == estudiante.Nombre);
+        if (Exixte.Count > 0)
+        {
+            Mesaje = "Ya el nombre esta registro".ToUpper();
+        }
+        await estudinateService.Guardar(estudiante);
+    }
+    public void Navegacion()
+    {
+        navegation.NavigateTo("/");
+    }
+
+}
+

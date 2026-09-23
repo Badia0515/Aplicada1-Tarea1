@@ -6,13 +6,16 @@ using Tarea1.Service;
 
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<LibrosService>();
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 var ConStr = builder.Configuration.GetConnectionString("Conexion");
-builder.Services.AddDbContextFactory<LibrosContext>(options => options.UseSqlite(ConStr));
+builder.Services.AddDbContextFactory<PrestamoContext>(options => options.UseSqlServer(ConStr));
+builder.Services.AddScoped<EstudianteService>();
+builder.Services.AddScoped<LibrosService>();
+builder.Services.AddScoped<PrestamoService>();
 
 
 var app = builder.Build();
