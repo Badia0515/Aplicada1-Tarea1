@@ -30,14 +30,15 @@ namespace Tarea1.Service
         public async Task<bool> Guardar(Prestamo entidad)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            context.Add(entidad);
-            return await context.SaveChangesAsync > 0;
+            context.Prestamos.Add(entidad);
+            return await context.SaveChangesAsync() > 0;
+           
         }
         public async Task<bool> Editar(Prestamo entidad)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            context.Update(entidad);
-            return await context.SaveChangesAsync > 0;
+            context.Prestamos.Update(entidad);
+            return await context.SaveChangesAsync() > 0;
         }
     }
 
