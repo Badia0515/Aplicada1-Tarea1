@@ -62,6 +62,7 @@
     public List<Estudiante> estudiantes = [];
     public string filtar { get; set; } = string.Empty;
     public string ValorFiltar { get; set; } = string.Empty;
+   
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,7 +102,7 @@
     }
     public void PaginaEditar(int id)
     {
-        navegation.NavigateTo($"/Edicion/{id}");
+        navegation.NavigateTo($"/Editar/{id}");
 
     }
 }
