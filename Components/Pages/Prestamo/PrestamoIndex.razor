@@ -1,0 +1,57 @@
+﻿@page "/Prestamo/Consultar"
+@rendermode InteractiveServer
+<div class="container">
+    <div class="card border-3">
+        <div class="card border-3">
+            <select @bind="Filtrar">
+                <option>IdEstudiante</option>
+                <option>IdLibro</option>
+            </select>
+            <input type="text" @bind="ValorFiltrar"/>
+            <button class="btn btn-primary bi bi-funnel ">Filtrar</button>
+        </div>
+
+    </div>
+</div>
+
+@code {
+
+    public List<Prestamo> prestamo { get; set; } = [];
+    public string ValorFiltrar { get; set; } = string.Empty;
+    public string Filtrar { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        prestamo = await prestamoservice.GetList(L => true);
+    }
+
+    public async Task Filtro()
+    {
+        if (ValorFiltrar.Trim() != "")
+        {
+            if(Filtrar == "IdEstudiante")
+            {
+                int.TryParse(ValorFiltrar, out int id);
+                prestamo = await prestamoservice.GetList(L => L.IdEstudiante == id);
+            }
+            if (Filtrar == "IdLibro")
+            {
+                int.TryParse(ValorFiltrar, out int id);
+                prestamo = await prestamoservice.GetList(L => L.IdLibro == id);
+            }
+        }
+
+    }
+    public async Task Eliminar(int id)
+    {
+        await prestamoservice.Eliminar(id);
+        prestamo = await prestamoservice.GetList(L => true);
+    }
+    public void Pagina(int id)
+    {
+        navigation.NavigateTo($"Prestamo/Consultar/{id}");
+
+    }
+
+
+}

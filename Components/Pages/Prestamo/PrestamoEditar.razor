@@ -1,0 +1,28 @@
+﻿@page "/Prestamo/Consultar/{id:int}"
+@rendermode InteractiveServer
+<h3>PrestamoEditar</h3>
+
+@code {
+    public List<Prestamo> prestamos { get; set; } = [];
+    public Prestamo prestamoEdiatr = new();
+    [Parameter]
+    public int id{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Editar(id);
+    }
+    public async Task Editar(int id)
+    {
+        var Prestamo = await prestamoservice.Buscar(id);
+        if (Prestamo != null)
+        {
+            prestamoEdiatr = Prestamo;
+        }
+    }
+    public async Task GuardarEditar()
+    {
+        await prestamoservice.Guardar(prestamoEdiatr);
+        prestamos = await prestamoservice.GetList(L => true);
+    }
+}
