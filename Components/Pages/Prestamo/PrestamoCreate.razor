@@ -52,7 +52,7 @@
             MensajeError = "EL Libro no esta registrado";
             return;
         }
-        if (existePrestamo.Count != null)
+        if (existePrestamo.Count > 0)
         {
             MensajeError = "Error: Ya ese estudiante esta registrado";
             return;

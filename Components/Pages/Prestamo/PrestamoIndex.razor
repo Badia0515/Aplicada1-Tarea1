@@ -2,7 +2,10 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @rendermode InteractiveServer
 <div class="container">
-    <div class="card border-3" style="height:600px">
+    <div class="text-center">
+        <h3> Consulta de Prestamo</h3>
+    </div>
+    <div class="card border-3">
         <div class="card border-3">
             <div>
             <label>Filtrar Por:</label>
@@ -12,32 +15,60 @@
             </select>
                 <label>Ingrese los datos:</label>
             <input type="text" style="width:100px" @bind="ValorFiltrar" />
-                <button class="btn btn-primary bi bi-funnel  " style="width:100px">Filtrar</button>
+                <button class="btn btn-warning bi bi-funnel " style="width:100px">Filtrar</button>
+                <button class="bi bi-plus-circle-fill btn btn-primary" @onclick="PaginaRegistrar">Crear</button>
             </div>
         </div>
         <div>
-            <QuickGrid Items="prestamo.AsQueryable()">
+            <QuickGrid Items="prestamo.AsQueryable()" class="table table-bordered">
                  <PropertyColumn Property="e=> e.IdPrestamo " Title="IdPrestamo" Sortable="true"/>
                   <PropertyColumn Property="e=> e.IdEstudiante"Title="IdEstudiante" Sortable="true"/>
                    <PropertyColumn Property="e=> e.IdLibro"Title="IdLibro" Sortable="true"/>
                     <PropertyColumn Property="e=> e.FechaDePrestamo"Title="Fecha" Sortable="true"/>
                     <TemplateColumn title="Opciones">
                         <button class="btn btn-warning" @onclick="() => Pagina(context.IdPrestamo)">Editar</button>
-                    <button class="btn btn-danger" @onclick="() => Eliminar(context.IdPrestamo)">Eliminar</button>
+                    <button class="btn btn-danger"@onclick="()=> AvisoEliminar(context.IdPrestamo)"> Eliminar</button>
 
                     </TemplateColumn>
 
             </QuickGrid>
+            <div class="card ">
+                <h6> Prestamo Registrado: @prestamo.Count</h6>
+            </div>
         </div>
+
+       
+</div>
+<div>
+        @if (Aviso == true)
+        {
+            <div class="modal d-block"tabindex="-1" style="background-color:rgba(0,0,0,0.5);" >
+                <div class="modal-dialog modal-dialog-centered ">
+                    <div class="text-center modal-content">
+                    <h3>Seguro que quieres eliminar?</h3>
+                    <div>
+                        <button class="btn btn-danger" @onclick="() => Eliminar(IdEliminar)">Confirmar</button>
+                        <button class="btn btn-warning" @onclick="volver">Volver</button>
+                    </div>
+
+                    </div>
+                </div>
+           </div>
+            
+        }
 
     </div>
 </div>
+
+
 
 @code {
 
     public List<Prestamo> prestamo { get; set; } = [];
     public string ValorFiltrar { get; set; } = string.Empty;
     public string Filtrar { get; set; } = string.Empty;
+    public bool Aviso { get; set; } = false;
+    public int IdEliminar { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -65,11 +96,27 @@
     {
         await prestamoservice.Eliminar(id);
         prestamo = await prestamoservice.GetList(L => true);
+        Aviso = false;
+    }
+    public void AvisoEliminar(int id)
+    {
+        IdEliminar = id;
+        Aviso = true;
+
+
+    }
+    public void volver()
+    {
+        Aviso = false;
     }
     public void Pagina(int id)
     {
         NavegacionPagina.NavigateTo($"Prestamo/Consultar/{id}");
 
+    }
+    public void PaginaRegistrar()
+    {
+        NavegacionPagina.NavigateTo("Prestamo/Crear");
     }
 
 
