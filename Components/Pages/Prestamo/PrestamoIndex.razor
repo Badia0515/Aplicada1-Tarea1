@@ -4,19 +4,28 @@
 <div class="container">
     <div class="card border-3" style="height:600px">
         <div class="card border-3">
-            <select @bind="Filtrar">
+            <div>
+            <label>Filtrar Por:</label>
+            <select @bind="Filtrar" style="width:100px">
                 <option>IdEstudiante</option>
                 <option>IdLibro</option>
             </select>
-            <input type="text" @bind="ValorFiltrar"/>
-            <button class="btn btn-primary bi bi-funnel ">Filtrar</button>
+                <label>Ingrese los datos:</label>
+            <input type="text" style="width:100px" @bind="ValorFiltrar" />
+                <button class="btn btn-primary bi bi-funnel  " style="width:100px">Filtrar</button>
+            </div>
         </div>
         <div>
             <QuickGrid Items="prestamo.AsQueryable()">
-                 <PropertyColumn Property="e=> e.IdLibro " Title="IdLibro" Sortable="true"/>
+                 <PropertyColumn Property="e=> e.IdPrestamo " Title="IdPrestamo" Sortable="true"/>
                   <PropertyColumn Property="e=> e.IdEstudiante"Title="IdEstudiante" Sortable="true"/>
-                   <PropertyColumn Property="e=> e.IdPrestamo"Title="IdPrestamo" Sortable="true"/>
+                   <PropertyColumn Property="e=> e.IdLibro"Title="IdLibro" Sortable="true"/>
                     <PropertyColumn Property="e=> e.FechaDePrestamo"Title="Fecha" Sortable="true"/>
+                    <TemplateColumn title="Opciones">
+                        <button class="btn btn-warning" @onclick="() => Pagina(context.IdPrestamo)">Editar</button>
+                    <button class="btn btn-danger" @onclick="() => Eliminar(context.IdPrestamo)">Eliminar</button>
+
+                    </TemplateColumn>
 
             </QuickGrid>
         </div>

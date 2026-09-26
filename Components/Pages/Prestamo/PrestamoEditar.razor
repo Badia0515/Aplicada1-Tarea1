@@ -1,12 +1,43 @@
 ﻿@page "/Prestamo/Consultar/{id:int}"
 @rendermode InteractiveServer
-<h3>PrestamoEditar</h3>
+<div class="container text-center">
+    <h4>Modo de Edicion</h4>
+    <div class="card border-3" style="width:400px ; margin:auto ; height:250px">
+
+        <div>
+            <label>IdEstudiante</label>
+            <br />
+            <input type="text" @bind="prestamoEditar.IdEstudiante" />
+        </div>
+
+        <div>
+            <label>IDLibro</label>
+            <br />
+            <input type="text" @bind="prestamoEditar.IdLibro" />
+        </div>
+
+        <div>
+            <label>Fecha de Prestamo</label>
+            <br />
+            <input type="text" @bind="prestamoEditar.FechaDePrestamo" />
+        </div>
+        <h6 style="color:red">@MensajeError</h6>
+        <div>
+
+            <button class="btn btn-warning " style="width:100px" @onclick="Pagina">Consultar </button>
+            <button class="bnt btn-primary" style="width:100px" @onclick=" GuardarEditar">Guardar</button>
+        </div>
+
+    </div>
+</div>
+
 
 @code {
     public List<Prestamo> prestamos { get; set; } = [];
-    public Prestamo prestamoEdiatr = new();
+    public Prestamo prestamoEditar = new();
     [Parameter]
     public int id{ get; set; }
+    public string MensajeError { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -17,12 +48,18 @@
         var Prestamo = await prestamoservice.Buscar(id);
         if (Prestamo != null)
         {
-            prestamoEdiatr = Prestamo;
+            prestamoEditar = Prestamo;
         }
     }
     public async Task GuardarEditar()
     {
-        await prestamoservice.Guardar(prestamoEdiatr);
+        await prestamoservice.Guardar(prestamoEditar);
         prestamos = await prestamoservice.GetList(L => true);
+        MensajeError = "Modificado Correctamente";
+    }
+    public void Pagina()
+    {
+        NavegacionPagina.NavigateTo("Prestamo/Consultar");
+
     }
 }

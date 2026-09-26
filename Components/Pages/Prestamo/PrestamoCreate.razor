@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 <div class="container text-center" >
     <h4>Registro de Prestamo</h4>
-    <div class="card border-3" style="width:400px ; margin:auto ; height:200px" >
+    <div class="card border-3" style="width:400px ; margin:auto ; height:250px" >
 
         <div>
             <label>IdEstudiante</label>
@@ -21,8 +21,9 @@
             <br />
             <input type="text" @bind="prestamo.FechaDePrestamo"/>
         </div>
-
+        <h6 style="color:red">@MensajeError</h6>
         <div>
+
         <button class="btn btn-warning " style="width:100px" @onclick="Pagina">Consultar </button>
             <button class="bnt btn-primary" style="width:100px" @onclick=" Guardar">Guardar</button>
         </div>
@@ -38,10 +39,22 @@
 
     public async Task Guardar()
     {
-        var Existe = await prestamoservice.GetList(L => L.IdEstudiante == prestamo.IdEstudiante);
-        if (Existe.Count > 0)
+        var ExisteEstudiante = await estudianteService.GetList(L => L.EstudianteId== L.EstudianteId);
+        var ExisteLibro = await librosService.GetList(L => L.IdLibro== L.IdLibro);
+        var existePrestamo = await prestamoservice.GetList(L => L.IdEstudiante == L.IdEstudiante);
+        if (ExisteEstudiante == null)
         {
-            MensajeError = "Ya hizo un Prestamo";
+            MensajeError = "EL Estudiante no esta registrado";
+            return;
+        }
+        if (ExisteLibro == null)
+        {
+            MensajeError = "EL Libro no esta registrado";
+            return;
+        }
+        if (existePrestamo.Count != null)
+        {
+            MensajeError = "Error: Ya ese estudiante esta registrado";
             return;
         }
         await prestamoservice.Guardar(prestamo);
