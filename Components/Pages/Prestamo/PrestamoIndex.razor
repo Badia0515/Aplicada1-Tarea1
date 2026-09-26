@@ -1,7 +1,8 @@
 ﻿@page "/Prestamo/Consultar"
+@using Microsoft.AspNetCore.Components.QuickGrid
 @rendermode InteractiveServer
 <div class="container">
-    <div class="card border-3">
+    <div class="card border-3" style="height:600px">
         <div class="card border-3">
             <select @bind="Filtrar">
                 <option>IdEstudiante</option>
@@ -9,6 +10,15 @@
             </select>
             <input type="text" @bind="ValorFiltrar"/>
             <button class="btn btn-primary bi bi-funnel ">Filtrar</button>
+        </div>
+        <div>
+            <QuickGrid Items="prestamo.AsQueryable()">
+                 <PropertyColumn Property="e=> e.IdLibro " Title="IdLibro" Sortable="true"/>
+                  <PropertyColumn Property="e=> e.IdEstudiante"Title="IdEstudiante" Sortable="true"/>
+                   <PropertyColumn Property="e=> e.IdPrestamo"Title="IdPrestamo" Sortable="true"/>
+                    <PropertyColumn Property="e=> e.FechaDePrestamo"Title="Fecha" Sortable="true"/>
+
+            </QuickGrid>
         </div>
 
     </div>
@@ -49,7 +59,7 @@
     }
     public void Pagina(int id)
     {
-        navigation.NavigateTo($"Prestamo/Consultar/{id}");
+        NavegacionPagina.NavigateTo($"Prestamo/Consultar/{id}");
 
     }
 
