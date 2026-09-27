@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 <div class="container text-center" >
     <h4>Registro de Prestamo</h4>
+    @*Formulario de Registro Estudiate *@
     <div class="card border-3" style="width:400px ; margin:auto ; height:250px" >
 
         <div>
@@ -21,9 +22,11 @@
             <br />
             <input type="text" @bind="prestamo.FechaDePrestamo"/>
         </div>
+        @*Mensaje de confimacion *@
         <h6 style="color:red">@MensajeError</h6>
+        <h6 style="color:forestgreen">@Mensaje</h6>
         <div>
-
+            @*Botones *@
         <button class="btn btn-warning " style="width:100px" @onclick="Pagina">Consultar </button>
             <button class="bnt btn-primary" style="width:100px" @onclick=" Guardar">Guardar</button>
         </div>
@@ -35,19 +38,21 @@
 
     public Prestamo prestamo { get; set; } = new();
     public string MensajeError { get; set; } = string.Empty;
+    public string Mensaje { get; set; } = string.Empty;
+
 
 
     public async Task Guardar()
     {
-        var ExisteEstudiante = await estudianteService.GetList(L => L.EstudianteId== L.EstudianteId);
-        var ExisteLibro = await librosService.GetList(L => L.IdLibro== L.IdLibro);
-        var existePrestamo = await prestamoservice.GetList(L => L.IdEstudiante == L.IdEstudiante);
-        if (ExisteEstudiante == null)
+        var ExisteEstudiante = await estudianteService.GetList(L => L.EstudianteId== prestamo.IdEstudiante);
+        var ExisteLibro = await librosService.GetList(L => L.IdLibro== prestamo.IdLibro);
+        var existePrestamo = await prestamoservice.GetList(L => L.IdEstudiante == prestamo.IdEstudiante);
+        if (ExisteEstudiante.Count == 0)
         {
             MensajeError = "EL Estudiante no esta registrado";
             return;
         }
-        if (ExisteLibro == null)
+        if (ExisteLibro.Count == 0)
         {
             MensajeError = "EL Libro no esta registrado";
             return;
@@ -56,6 +61,10 @@
         {
             MensajeError = "Error: Ya ese estudiante esta registrado";
             return;
+        }
+        else
+        {
+            Mensaje = "Prestamo Registrado";
         }
         await prestamoservice.Guardar(prestamo);
     }

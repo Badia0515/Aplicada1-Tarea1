@@ -5,8 +5,10 @@
     <div class="text-center">
         <h3> Consulta de Prestamo</h3>
     </div>
+    
     <div class="card border-3">
         <div class="card border-3">
+            @*Filtrar *@
             <div>
             <label>Filtrar Por:</label>
             <select @bind="Filtrar" style="width:100px">
@@ -15,10 +17,11 @@
             </select>
                 <label>Ingrese los datos:</label>
             <input type="text" style="width:100px" @bind="ValorFiltrar" />
-                <button class="btn btn-warning bi bi-funnel " style="width:100px">Filtrar</button>
+                <button class="btn btn-warning bi bi-funnel " style="width:100px"@onclick="Filtro">Filtrar</button>
                 <button class="bi bi-plus-circle-fill btn btn-primary" @onclick="PaginaRegistrar">Crear</button>
             </div>
         </div>
+        @*Tabla *@
         <div>
             <QuickGrid Items="prestamo.AsQueryable()" class="table table-bordered">
                  <PropertyColumn Property="e=> e.IdPrestamo " Title="IdPrestamo" Sortable="true"/>
@@ -32,6 +35,7 @@
                     </TemplateColumn>
 
             </QuickGrid>
+
             <div class="card ">
                 <h6> Prestamo Registrado: @prestamo.Count</h6>
             </div>
@@ -40,6 +44,7 @@
        
 </div>
 <div>
+        @*Confirmacio de eliminacion *@
         @if (Aviso == true)
         {
             <div class="modal d-block"tabindex="-1" style="background-color:rgba(0,0,0,0.5);" >

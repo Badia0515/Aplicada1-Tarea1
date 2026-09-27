@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 <div class="container text-center">
     <h4>Modo de Edicion</h4>
+    @*Formulario de Editar Estudiate *@
     <div class="card border-3" style="width:400px ; margin:auto ; height:250px">
 
         <div>
@@ -21,7 +22,8 @@
             <br />
             <input type="text" @bind="prestamoEditar.FechaDePrestamo" />
         </div>
-        <h6 style="color:red">@MensajeError</h6>
+        <h6 style="color:forestgreen">@MensajeError</h6>
+        @*Botones *@
         <div>
 
             <button class="btn btn-warning " style="width:100px" @onclick="Pagina">Consultar </button>
@@ -53,7 +55,7 @@
     }
     public async Task GuardarEditar()
     {
-        await prestamoservice.Guardar(prestamoEditar);
+        await prestamoservice.Editar(prestamoEditar);
         prestamos = await prestamoservice.GetList(L => true);
         MensajeError = "Modificado Correctamente";
     }
