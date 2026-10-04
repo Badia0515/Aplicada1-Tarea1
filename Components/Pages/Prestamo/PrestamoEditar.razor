@@ -1,5 +1,6 @@
 ﻿@page "/Prestamo/Consultar/{id:int}"
 @rendermode InteractiveServer
+
 <div class="container text-center">
     <h4>Modo de Edicion</h4>
     @*Formulario de Editar Estudiate *@
@@ -22,6 +23,7 @@
             <br />
             <input type="text" @bind="prestamoEditar.FechaDePrestamo" />
         </div>
+
         <h6 style="color:forestgreen">@MensajeError</h6>
         @*Botones *@
         <div>
