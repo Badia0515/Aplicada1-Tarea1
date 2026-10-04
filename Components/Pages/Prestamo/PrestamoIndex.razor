@@ -24,24 +24,19 @@
         @*Tabla *@
         <div>
             <QuickGrid Items="prestamo.AsQueryable()" class="table table-bordered">
-                 <PropertyColumn Property="e=> e.IdPrestamo " Title="IdPrestamo" Sortable="true"/>
-                  <PropertyColumn Property="e=> e.IdEstudiante"Title="IdEstudiante" Sortable="true"/>
+                 <PropertyColumn Property="e=> e.IdPrestamo" Title="IdPrestamo" Sortable="true"/>
+                  <PropertyColumn Property="e=> e.IdEstudiante"Title="IdEstudiante"Sortable="true"/>
                    <PropertyColumn Property="e=> e.IdLibro"Title="IdLibro" Sortable="true"/>
                     <PropertyColumn Property="e=> e.FechaDePrestamo"Title="Fecha" Sortable="true"/>
                     <TemplateColumn title="Opciones">
                         <button class="btn btn-warning" @onclick="() => Pagina(context.IdPrestamo)">Editar</button>
                     <button class="btn btn-danger"@onclick="()=> AvisoEliminar(context.IdPrestamo)"> Eliminar</button>
-
                     </TemplateColumn>
-
             </QuickGrid>
-
             <div class="card ">
                 <h6> Prestamo Registrado: @prestamo.Count</h6>
             </div>
-        </div>
-
-       
+        </div>  
 </div>
 <div>
         @*Confirmacio de eliminacion *@
