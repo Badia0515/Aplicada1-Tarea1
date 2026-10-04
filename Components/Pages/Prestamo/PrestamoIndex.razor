@@ -50,7 +50,6 @@
                         <button class="btn btn-danger" @onclick="() => Eliminar(IdEliminar)">Confirmar</button>
                         <button class="btn btn-warning" @onclick="volver">Volver</button>
                     </div>
-
                     </div>
                 </div>
            </div>
@@ -59,22 +58,16 @@
 
     </div>
 </div>
-
-
-
 @code {
-
     public List<Prestamo> prestamo { get; set; } = [];
     public string ValorFiltrar { get; set; } = string.Empty;
     public string Filtrar { get; set; } = string.Empty;
     public bool Aviso { get; set; } = false;
     public int IdEliminar { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         prestamo = await prestamoservice.GetList(L => true);
     }
-
     public async Task Filtro()
     {
         if (ValorFiltrar.Trim() != "")
