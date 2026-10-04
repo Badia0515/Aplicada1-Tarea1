@@ -7,16 +7,16 @@ namespace Tarea1.Service
 {
     public class EstudianteService(IDbContextFactory<Context.PrestamoContext> contextFactory) : IService<Estudiante, int>
     {
-        public async Task<Estudiante?> Buscar(int id)
+        public async Task<Estudiante?> Buscar(int EstudianteId)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            return await context.Estudiantes.FirstOrDefaultAsync(L => L.EstudianteId == id);
+            return await context.Estudiantes.FirstOrDefaultAsync(L => L.EstudianteId == EstudianteId);
         }
 
-        public async Task<bool> Eliminar(int id)
+        public async Task<bool> Eliminar(int EstudianteId)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            return await context.Estudiantes.Where(L => L.EstudianteId == id).ExecuteDeleteAsync() > 0;
+            return await context.Estudiantes.Where(L => L.EstudianteId == EstudianteId).ExecuteDeleteAsync() > 0;
         }
 
         public async Task<List<Estudiante>> GetList(Expression<Func<Estudiante, bool>> Estudiante)
