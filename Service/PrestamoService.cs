@@ -15,6 +15,12 @@ namespace Tarea1.Service
             return await context.Prestamos.FirstOrDefaultAsync(L => L.IdPrestamo == id);
         }
 
+        public async Task<bool> Existe(int id)
+        {
+            await using var context = await contextFactory.CreateDbContextAsync();
+            return await context.Prestamos.AnyAsync(L => L.IdPrestamo == id);
+        }
+
         public async Task<bool> Eliminar(int id)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
@@ -27,11 +33,24 @@ namespace Tarea1.Service
             return await context.Prestamos.Where(criterio).AsNoTracking().ToListAsync();
         }
 
-        public async Task<bool> Guardar(Prestamo entidad)
+        public async Task<bool> Insertar(Prestamo entidad)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
             context.Prestamos.Add(entidad);
             return await context.SaveChangesAsync() > 0;
+        }
+        public async Task<bool> Guardar(Prestamo entidad)
+        {
+            if(!await Existe(entidad.IdPrestamo))
+            {
+                return await Insertar(entidad);
+            }
+            else
+            {
+                return await Editar(entidad);
+
+            }
+           
         }
         public async Task<bool> Editar(Prestamo entidad)
         {
