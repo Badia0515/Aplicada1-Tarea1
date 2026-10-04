@@ -50,7 +50,6 @@ namespace Tarea1.Service
                 return await Editar(entidad);
 
             }
-           
         }
         public async Task<bool> Editar(Prestamo entidad)
         {
@@ -59,5 +58,4 @@ namespace Tarea1.Service
             return await context.SaveChangesAsync() > 0;
         }
     }
-
 }

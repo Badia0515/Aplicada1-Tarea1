@@ -19,14 +19,12 @@ public class LibrosService(IDbContextFactory<Context.PrestamoContext> contextFac
     {
         await using var context = await contextFactory.CreateDbContextAsync();
         return await context.Libros.FirstOrDefaultAsync(L => L.IdLibro == Libroid);
-
     }
 
     public async Task<bool> Eliminar(int IdLibro)
     {
         await using var context = await contextFactory.CreateDbContextAsync();
         return await context.Libros.Where(L => L.IdLibro == IdLibro).ExecuteDeleteAsync() > 0;
-
     }
 
     public async Task<List<Libros>> GetList(Expression<Func<Libros, bool>> Lista)
@@ -41,9 +39,4 @@ public class LibrosService(IDbContextFactory<Context.PrestamoContext> contextFac
         context.Libros.Update(libro);
         return await context.SaveChangesAsync() > 0;
     }
-
-
-
 }
-
-
