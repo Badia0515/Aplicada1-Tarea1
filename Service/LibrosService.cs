@@ -8,17 +8,35 @@ namespace Tarea1.Service;
 public class LibrosService(IDbContextFactory<Context.PrestamoContext> contextFactory) : IService<Libros, int>
 {
 
-    public async Task<bool> Guardar(Libros libro)
+    public async Task<bool> Insetar(Libros libro)
     {
         await using var context = await contextFactory.CreateDbContextAsync();
         context.Libros.Add(libro);
         return await context.SaveChangesAsync() > 0;
     }
 
+    public async Task<bool> Guardar(Libros libro)
+    {
+        if(!await Existe(libro.IdLibro))
+        {
+            return await Insetar(libro);
+        }
+        else
+        {
+            return await Editar(libro);
+        }
+        
+    }
+
     public async Task<Libros?> Buscar(int Libroid)
     {
         await using var context = await contextFactory.CreateDbContextAsync();
         return await context.Libros.FirstOrDefaultAsync(L => L.IdLibro == Libroid);
+    }
+    public async Task<bool> Existe(int IdLibro)
+    {
+        await using var context = await contextFactory.CreateDbContextAsync();
+        return await context.Libros.AnyAsync(L => L.IdLibro == IdLibro);
     }
 
     public async Task<bool> Eliminar(int IdLibro)
