@@ -1,5 +1,6 @@
 ﻿@page "/Prestamo/Crear"
 @rendermode InteractiveServer
+
 <div class="container text-center" >
     <h4>Registro de Prestamo</h4>
     @*Formulario de Registro Estudiate *@
@@ -21,26 +22,23 @@
             <br />
             <input type="text" @bind="prestamo.FechaDePrestamo"/>
         </div>
+
         @*Mensaje de confimacion *@
         <h6 style="color:red">@MensajeError</h6>
         <h6 style="color:forestgreen">@Mensaje</h6>
         <div>
+
             @*Botones *@
         <button class="btn btn-warning " style="width:100px" @onclick="Pagina">Consultar </button>
             <button class="bnt btn-primary" style="width:100px" @onclick=" Guardar">Guardar</button>
         </div>
-
     </div>
 </div>
-
 @code{
 
     public Prestamo prestamo { get; set; } = new();
     public string MensajeError { get; set; } = string.Empty;
     public string Mensaje { get; set; } = string.Empty;
-
-
-
     public async Task Guardar()
     {
         var ExisteEstudiante = await estudianteService.GetList(L => L.EstudianteId== prestamo.IdEstudiante);
