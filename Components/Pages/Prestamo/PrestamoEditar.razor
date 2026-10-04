@@ -51,12 +51,14 @@
             prestamoEditar = Prestamo;
         }
     }
+
     public async Task GuardarEditar()
     {
         await prestamoservice.Editar(prestamoEditar);
         prestamos = await prestamoservice.GetList(L => true);
         MensajeError = "Modificado Correctamente";
     }
+
     public void Pagina()
     {
         NavegacionPagina.NavigateTo("Prestamo/Consultar");
