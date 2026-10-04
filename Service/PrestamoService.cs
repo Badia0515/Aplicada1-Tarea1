@@ -32,7 +32,6 @@ namespace Tarea1.Service
             await using var context = await contextFactory.CreateDbContextAsync();
             context.Prestamos.Add(entidad);
             return await context.SaveChangesAsync() > 0;
-           
         }
         public async Task<bool> Editar(Prestamo entidad)
         {
