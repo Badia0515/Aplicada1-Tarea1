@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tarea1.Migrations;
+using Tarea1.Models;
 
 namespace Tarea1.Context
 {
@@ -9,5 +10,6 @@ namespace Tarea1.Context
         {
         }
         public DbSet<Devolucion> devolucion { get; set; }
+        public DbSet<Prestamo> prestamo { get; set; }
     }
 }
