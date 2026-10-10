@@ -1,31 +1,37 @@
-﻿@page "/DevolucionRegistro"
+﻿@page "/Devolucion/Registro"
+@rendermode InteractiveServer
 
 <div class="container">
-    <div class="card border-3">
+  <h4 style="text-center">Registro de Devolucion</h4>
+    <div class="card border-3 p-3" style="height:400px">
         <EditForm Model="devolucion" OnValidSubmit="Guardar" FormName="Registro">
             <DataAnnotationsValidator/>
 
-            <div>
+            <div class="mb-4">
                 <label>Id Prestamo</label>
-                <InputNumber @bind-Value="devolucion.IdPrestamo" />
-                <ValidationMessage class="text-danger" For="(()=>devolucion.IdPrestamo)" />
-            </div> 
+                <br />
+                <InputNumber @bind-Value="devolucion.IdPrestamo" class="form-control" />
+                <ValidationMessage class="text-danger" For="@(()=>devolucion.IdPrestamo)" />
+            </div > 
             
-            <div>
+            <div class="mb-4">
                 <label>Libro</label>
-                <InputText @bind-Value="devolucion.Libro" />
-                <ValidationMessage class="text-danger" For="(() => devolucion.Libro)" />
+                <br />
+                <InputText @bind-Value="devolucion.Libro" class="form-control"/>
+                <ValidationMessage class="text-danger" For="@(() => devolucion.Libro)" />
             </div>
 
-            <div>
+            <div class="mb-4">
                 <label>Fecha Devolucion</label>
-                <InputDate @bind-Value="devolucion.FechaDevolucion" />
-                <ValidationMessage class="text-danger" For="(() => devolucion.FechaDevolucion)" />
+                <br />
+                <InputDate @bind-Value="devolucion.FechaDevolucion" class="form-control" />
+                <ValidationMessage class="text-danger" For="@(() => devolucion.FechaDevolucion)" />
             </div>
 
-            <div>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-warning">Consultar</button>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <button type="button" class="btn btn-warning bi bi-journal-album">Consultar</button>
+                <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+               
             </div>
 
         </EditForm>
@@ -41,9 +47,9 @@
     public async Task Guardar()
     {
         var Existe = await devolucionService.GetList(D => D.IdPrestamo == devolucion.IdPrestamo);
-        if(Existe != null)
+        if(Existe.Count>0)
         {
-            Mensaje = "El préstamo ya existe";
+            Mensaje = "El prestamo ya fue devolvido";
         }
         else
         {

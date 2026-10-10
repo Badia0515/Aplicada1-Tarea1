@@ -34,7 +34,7 @@ namespace Tarea1.Service
         public async Task<bool> Insertar(Devolucion devolucion)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            var ExistePrestamo = await context.prestamo.AnyAsync(P => P.IdPrestamo == devolucion.IdPrestamo);
+            var ExistePrestamo = await context.Prestamos.AnyAsync(P => P.IdPrestamo == devolucion.IdPrestamo);
             if (!ExistePrestamo)
             {
                 return false;

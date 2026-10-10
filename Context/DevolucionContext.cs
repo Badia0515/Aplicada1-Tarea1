@@ -1,15 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tarea1.Migrations;
+﻿
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 using Tarea1.Models;
+namespace Tarea1.Context;
 
-namespace Tarea1.Context
+    public class DevolucionContext: DbContext
 {
-    public class DevolucionContext :DbContext
+    public DevolucionContext(DbContextOptions<DevolucionContext> options) : base(options)
     {
-        public DevolucionContext(DbContextOptions<DevolucionContext> options) : base(options)
-        {
-        }
-        public DbSet<Devolucion> devolucion { get; set; }
-        public DbSet<Prestamo> prestamo { get; set; }
     }
+    public DbSet<Libros> Libros { get; set; }
+
+    public DbSet<Estudiante> Estudiantes { get; set; }
+
+    public DbSet<Prestamo> Prestamos { get; set; }
+
+    public DbSet<Devolucion> devolucion { get; set; }
+
 }
+
+
+
+
+
+
+

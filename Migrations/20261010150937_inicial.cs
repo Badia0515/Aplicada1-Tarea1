@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -34,7 +35,7 @@ namespace Tarea1.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Anio = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Anio = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,17 +50,46 @@ namespace Tarea1.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEstudiante = table.Column<int>(type: "int", nullable: false),
                     IdLibro = table.Column<int>(type: "int", nullable: false),
-                    FechaDePrestamo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FechaDePrestamo = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Prestamos", x => x.IdPrestamo);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "devolucion",
+                columns: table => new
+                {
+                    IdDevolucion = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdPrestamo = table.Column<int>(type: "int", nullable: false),
+                    Libro = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaDevolucion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    prestamoIdPrestamo = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_devolucion", x => x.IdDevolucion);
+                    table.ForeignKey(
+                        name: "FK_devolucion_Prestamos_prestamoIdPrestamo",
+                        column: x => x.prestamoIdPrestamo,
+                        principalTable: "Prestamos",
+                        principalColumn: "IdPrestamo");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_devolucion_prestamoIdPrestamo",
+                table: "devolucion",
+                column: "prestamoIdPrestamo");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "devolucion");
+
             migrationBuilder.DropTable(
                 name: "Estudiantes");
 

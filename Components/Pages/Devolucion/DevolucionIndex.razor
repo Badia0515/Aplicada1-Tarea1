@@ -1,9 +1,10 @@
-﻿@page "/Devolucion"
+﻿@page "/Devolucion/Consultar"
+@rendermode InteractiveServer
 
 <div class="container">
 
     <div class="d-flex justify-content-between ">
-        <h4>Consultar</h4>
+        <h4>Consultar Devolucion</h4>
         <button class="btn btn-primary bi bi-plus">Crear</button>
     </div>
 
@@ -22,7 +23,7 @@
             </select>
 
             <input type="text" placeholder="Buscar"@bind="ValorFiltro" />
-        <button class="btn btn-warning">Filtrar</button>
+            <button class="btn btn-warning bi bi-search"></button>
         </div>
 
         <div>
@@ -30,7 +31,7 @@
                 <PropertyColumn Property="D=>D.IdDevolucion" title="IdDevolucion" Sortable="true"/> 
                 <PropertyColumn Property="D => D.IdPrestamo" title="IdPrestamo" Sortable="true" />
                 <PropertyColumn Property="D => D.Libro" title="Libro" Sortable="true" />
-                <PropertyColumn Property="D => D.FechaDevolucion" title="FechaDevolucion" Sortable="true" />
+                <PropertyColumn Property="D => D.FechaDevolucion" title="FechaDevolucion" Sortable="true" />  
                 <TemplateColumn title="Opciones ">
                     <button class="btn btn-warning bi bi-pencil"></button>
                     <button class="btn btn-danger bi bi-trash"@onclick="()=>Eliminar(context.IdDevolucion) "></button>
@@ -81,6 +82,6 @@
     {
         await devolucionService.Eliminar(id);
         devolucion = await devolucionService.GetList(D => true);
-    }
-    
+    }      
+
 }

@@ -12,10 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 var ConStr = builder.Configuration.GetConnectionString("Conexion");
-builder.Services.AddDbContextFactory<PrestamoContext>(options => options.UseSqlServer(ConStr));
+builder.Services.AddDbContextFactory<DevolucionContext>(options => options.UseSqlServer(ConStr));
 builder.Services.AddScoped<EstudianteService>();
 builder.Services.AddScoped<LibrosService>();
 builder.Services.AddScoped<PrestamoService>();
+builder.Services.AddScoped<DevolucionService>();
 
 
 var app = builder.Build();

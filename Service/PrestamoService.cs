@@ -7,7 +7,7 @@ using Tarea1.Models;
 
 namespace Tarea1.Service
 {
-    public class PrestamoService(IDbContextFactory<PrestamoContext> contextFactory) : IService<Prestamo, int>
+    public class PrestamoService(IDbContextFactory<DevolucionContext> contextFactory) : IService<Prestamo, int>
     {
         public async Task<Prestamo?> Buscar(int id)
         {
@@ -30,7 +30,7 @@ namespace Tarea1.Service
         public async Task<List<Prestamo>> GetList(Expression<Func<Prestamo, bool>> criterio)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            return await context.Prestamos.Where(criterio).AsNoTracking().ToListAsync();
+            return await context.Prestamos.Where(D => D.devolucion == null).Where(criterio).AsNoTracking().ToListAsync();
         }
 
         public async Task<bool> Insertar(Prestamo entidad)

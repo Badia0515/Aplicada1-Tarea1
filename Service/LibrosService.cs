@@ -5,7 +5,7 @@ using Aplicada1.Core;
 using System.Linq.Expressions;
 namespace Tarea1.Service;
 
-public class LibrosService(IDbContextFactory<Context.PrestamoContext> contextFactory) : IService<Libros, int>
+public class LibrosService(IDbContextFactory<Context.DevolucionContext> contextFactory) : IService<Libros, int>
 {
 
     public async Task<bool> Insetar(Libros libro)

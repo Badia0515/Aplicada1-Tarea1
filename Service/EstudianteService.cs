@@ -5,7 +5,7 @@ using Tarea1.Context;
 using Tarea1.Models;
 namespace Tarea1.Service
 {
-    public class EstudianteService(IDbContextFactory<Context.PrestamoContext> contextFactory) : IService<Estudiante, int>
+    public class EstudianteService(IDbContextFactory<Context.DevolucionContext> contextFactory) : IService<Estudiante, int>
     {
         public async Task<Estudiante?> Buscar(int EstudianteId)
         {

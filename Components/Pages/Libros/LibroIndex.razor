@@ -98,8 +98,8 @@
                 libros = await librosService.GetList(L => L.Autor.Contains(ValorFiltro));
             }
             if (Filtro == "Año"){
-
-                libros = await librosService.GetList(L => L.Anio.Contains(ValorFiltro));
+                int.TryParse(ValorFiltro, out int Id);
+                libros = await librosService.GetList(L => L.Anio==Id);
             }
             if (Filtro == "ID")
             {

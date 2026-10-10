@@ -1,0 +1,70 @@
+﻿@page "/Devolucion/{id:int}"
+@rendermode InteractiveServer
+<div class="container">
+    <h4 style="text-center">Registro de Devolucion</h4>
+    <div class="card border-3 p-3" style="height:400px">
+        <EditForm Model="devolucionEditar" OnValidSubmit="GuardarEditar" FormName="Editar">
+            <DataAnnotationsValidator />
+
+            <div class="mb-4">
+                <label>Id Prestamo</label>
+                <br />
+                <InputNumber @bind-Value="devolucionEditar.IdPrestamo" class="form-control" />
+                <ValidationMessage class="text-danger" For="@(() => devolucionEditar.IdPrestamo)" />
+            </div>
+
+            <div class="mb-4">
+                <label>Libro</label>
+                <br />
+                <InputText @bind-Value="devolucionEditar.Libro" class="form-control" />
+                <ValidationMessage class="text-danger" For="@(() => devolucionEditar.Libro)" />
+            </div>
+
+            <div class="mb-4">
+                <label>Fecha Devolucion</label>
+                <br />
+                <InputDate @bind-Value="devolucionEditar.FechaDevolucion" class="form-control" />
+                <ValidationMessage class="text-danger" For="@(() => devolucionEditar.FechaDevolucion)" />
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <button type="button" class="btn btn-warning bi bi-journal-album">Consultar</button>
+                <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
+
+            </div>
+
+        </EditForm>
+
+    </div>
+
+</div>
+
+
+@code {
+    public List<Devolucion> devolucion { get; set; } = [];
+    public Devolucion devolucionEditar { get; set; } = new();
+
+    [Parameter]
+    public int id{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Edita(id);
+    }
+
+    public async Task Edita(int id)
+    {
+        var Devolucion = await devolucionService.Buscar(id);
+        if (Devolucion != null)
+        {
+            devolucionEditar = Devolucion;
+        }
+    }
+    public async Task GuardarEditar()
+    {
+        await devolucionService.Editar(devolucionEditar);
+        devolucion = await devolucionService.GetList(D => true);
+    }
+}
+
+
