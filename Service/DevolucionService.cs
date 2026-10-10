@@ -2,7 +2,7 @@
 using Aplicada1.Core;
 using Microsoft.EntityFrameworkCore;
 using Tarea1.Context;
-using Tarea1.Migrations;
+using Tarea1.Models;
 
 namespace Tarea1.Service
 {

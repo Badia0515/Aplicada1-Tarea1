@@ -1,0 +1,86 @@
+﻿@page "/Devolucion"
+
+<div class="container">
+
+    <div class="d-flex justify-content-between ">
+        <h4>Consultar</h4>
+        <button class="btn btn-primary bi bi-plus">Crear</button>
+    </div>
+
+    <div class="card border-3">
+        <div class="d-flex" style="gap:200px">
+            <h6>Filtrar Por</h6>
+            <h6>Busqueda</h6>
+        </div>
+
+        <div class="d-flex gap-5">
+
+            <select style="width:200px"@bind="Filtro">
+                <option>Id Devolucion</option>
+                <option>Id Prestamo</option>
+                <option>Libro</option>
+            </select>
+
+            <input type="text" placeholder="Buscar"@bind="ValorFiltro" />
+        <button class="btn btn-warning">Filtrar</button>
+        </div>
+
+        <div>
+            <QuickGrid Items="devolucion.AsQueryable()" class="table table-bordered">
+                <PropertyColumn Property="D=>D.IdDevolucion" title="IdDevolucion" Sortable="true"/> 
+                <PropertyColumn Property="D => D.IdPrestamo" title="IdPrestamo" Sortable="true" />
+                <PropertyColumn Property="D => D.Libro" title="Libro" Sortable="true" />
+                <PropertyColumn Property="D => D.FechaDevolucion" title="FechaDevolucion" Sortable="true" />
+                <TemplateColumn title="Opciones ">
+                    <button class="btn btn-warning bi bi-pencil"></button>
+                    <button class="btn btn-danger bi bi-trash"@onclick="()=>Eliminar(context.IdDevolucion) "></button>
+                </TemplateColumn>
+            </QuickGrid>
+           
+        </div>
+        <h7>Cantidad de Registro de Devolucion: @devolucion.Count</h7>
+    </div>
+</div>
+        
+        
+  
+
+@code {
+
+    public List<Devolucion> devolucion { get; set; } = [];
+    public string ValorFiltro { get; set; } = string.Empty;
+    public string Filtro { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        devolucion = await devolucionService.GetList(D=>true);
+    }
+    public async Task Filtar()
+    {
+        if (ValorFiltro.Trim() != "")
+        {
+            if(Filtro== "Id Devolucion")
+            {
+                int.TryParse(ValorFiltro, out int id);
+                devolucion = await devolucionService.GetList(D => D.IdDevolucion == id);
+            }
+            if (Filtro == "Id Prestamo")
+            {
+                int.TryParse(ValorFiltro, out int id);
+                devolucion = await devolucionService.GetList(D => D.IdPrestamo == id);
+            }
+            if (Filtro == "Libro")
+            {
+
+                devolucion = await devolucionService.GetList(D => D.Libro.Contains(ValorFiltro));
+            }
+
+        }
+    }
+    public async Task Eliminar(int id)
+    {
+        await devolucionService.Eliminar(id);
+        devolucion = await devolucionService.GetList(D => true);
+    }
+    
+}

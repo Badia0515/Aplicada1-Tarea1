@@ -1,0 +1,55 @@
+﻿@page "/DevolucionRegistro"
+
+<div class="container">
+    <div class="card border-3">
+        <EditForm Model="devolucion" OnValidSubmit="Guardar" FormName="Registro">
+            <DataAnnotationsValidator/>
+
+            <div>
+                <label>Id Prestamo</label>
+                <InputNumber @bind-Value="devolucion.IdPrestamo" />
+                <ValidationMessage class="text-danger" For="(()=>devolucion.IdPrestamo)" />
+            </div> 
+            
+            <div>
+                <label>Libro</label>
+                <InputText @bind-Value="devolucion.Libro" />
+                <ValidationMessage class="text-danger" For="(() => devolucion.Libro)" />
+            </div>
+
+            <div>
+                <label>Fecha Devolucion</label>
+                <InputDate @bind-Value="devolucion.FechaDevolucion" />
+                <ValidationMessage class="text-danger" For="(() => devolucion.FechaDevolucion)" />
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-warning">Consultar</button>
+            </div>
+
+        </EditForm>
+
+    </div>
+
+</div>
+
+@code {
+    public Devolucion devolucion { get; set; } = new();
+    public String Mensaje { get; set; } = string.Empty;
+
+    public async Task Guardar()
+    {
+        var Existe = await devolucionService.GetList(D => D.IdPrestamo == devolucion.IdPrestamo);
+        if(Existe != null)
+        {
+            Mensaje = "El préstamo ya existe";
+        }
+        else
+        {
+            await devolucionService.Guardar(devolucion);
+        }
+
+    }
+    
+}
