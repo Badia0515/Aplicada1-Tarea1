@@ -31,33 +31,33 @@ namespace Tarea1.Service
             await using var context = await contextFactory.CreateDbContextAsync();
             return await context.devolucion.Where(criterio).AsNoTracking().ToListAsync();
         }
-        public async Task<bool> Insertar(Devolucion entidad)
+        public async Task<bool> Insertar(Devolucion devolucion)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            var ExistePrestamo = await context.prestamo.AnyAsync(P => P.IdPrestamo == entidad.IdPrestamo);
+            var ExistePrestamo = await context.prestamo.AnyAsync(P => P.IdPrestamo == devolucion.IdPrestamo);
             if (!ExistePrestamo)
             {
                 return false;
             }
-            context.devolucion.Add(entidad);
+            context.devolucion.Add(devolucion);
             return await context.SaveChangesAsync() > 0;
         }
-        public async Task<bool> Editar(Devolucion entidad)
+        public async Task<bool> Editar(Devolucion devolucion)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            context.devolucion.Update(entidad);
+            context.devolucion.Update(devolucion);
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Guardar(Devolucion entidad)
+        public async Task<bool> Guardar(Devolucion devolucion)
         {
-            if (!await Existe(entidad.IdDevolucion))
+            if (!await Existe(devolucion.IdDevolucion))
             {
-                return await Insertar(entidad);
+                return await Insertar(devolucion);
             }
             else
             {
-                return await Editar(entidad);
+                return await Editar(devolucion);
             }
         }
     }
