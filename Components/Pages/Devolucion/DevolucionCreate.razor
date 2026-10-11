@@ -48,7 +48,7 @@
     public async Task Guardar()
     {
         var Existe = await devolucionService.GetList(D => D.IdPrestamo == devolucion.IdPrestamo);
-        if(Existe.Count>0)
+        if(Existe.Value.Count >0)
         {
             Mensaje = "El prestamo ya fue devolvido";
         }

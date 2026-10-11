@@ -6,9 +6,9 @@ using Tarea1.Models;
 
 namespace Tarea1.Service
 {
-    public class DevolucionService(IDbContextFactory<DevolucionContext> contextFactory) : IService<Devolucion, int>
+    public class DevolucionService(IDbContextFactory<DevolucionContext> contextFactory) : IServiceResult<Devolucion, int>
     {
-        public async Task<Devolucion?> Buscar(int id)
+        public async Task<Result<Devolucion?>> Buscar(int id)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
             return await context.devolucion.FirstOrDefaultAsync(D => D.IdDevolucion == id);
@@ -20,13 +20,14 @@ namespace Tarea1.Service
             return await context.devolucion.AnyAsync(D => D.IdDevolucion == id);
         }
 
-        public async Task<bool> Eliminar(int id)
+        public async Task<Result> Eliminar(int id)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            return await context.devolucion.Where(D => D.IdDevolucion == id).ExecuteDeleteAsync() > 0;
+            var Eliminar = await context.devolucion.Where(D => D.IdDevolucion == id).ExecuteDeleteAsync() > 0;
+            return Result.Success(Eliminar);
         }
 
-        public async Task<List<Devolucion>> GetList(Expression<Func<Devolucion, bool>> criterio)
+        public async Task<Result<List<Devolucion>>> GetList(Expression<Func<Devolucion, bool>> criterio)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
             return await context.devolucion.Where(criterio).AsNoTracking().ToListAsync();
@@ -49,16 +50,18 @@ namespace Tarea1.Service
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Guardar(Devolucion devolucion)
+        public async Task<Result> Guardar(Devolucion devolucion)
         {
+            bool Guardado;
             if (!await Existe(devolucion.IdDevolucion))
             {
-                return await Insertar(devolucion);
+                Guardado = await Insertar(devolucion);
             }
             else
             {
-                return await Editar(devolucion);
+                Guardado = await Editar(devolucion);
             }
+            return Result.Success(Guardado);
         }
     }
 }

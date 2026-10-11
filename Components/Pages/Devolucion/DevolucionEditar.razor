@@ -48,16 +48,17 @@
     }
     public async Task Edita(int id)
     {
-        var Devolucion = await devolucionService.Buscar(id);
-        if (Devolucion != null)
+        var Resultado = await devolucionService.Buscar(id);
+        if (Resultado.Value != null)
         {
-            devolucionEditar = Devolucion;
+            devolucionEditar = Resultado.Value;
         }
     }
     public async Task GuardarEditar()
     {
         await devolucionService.Editar(devolucionEditar);
-        devolucion = await devolucionService.GetList(D => true);
+        var resultado= await devolucionService.GetList(D => true);
+        devolucion = resultado.Value;
     }
     public void Pagina()
     {
