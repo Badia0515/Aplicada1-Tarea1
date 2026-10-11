@@ -1,19 +1,20 @@
 ﻿@page "/Devolucion/Consultar"
 @rendermode InteractiveServer
 
+@*Panel*@
 <div class="container">
 
     <div class="d-flex justify-content-between ">
         <h4>Consultar Devolucion</h4>
-        <button class="btn btn-primary bi bi-plus">Crear</button>
+        <button class="btn btn-primary bi bi-plus" @onclick="PaginaRegistro">Crear</button>
     </div>
-
+    @*Filtrar*@
     <div class="card border-3">
         <div class="d-flex" style="gap:200px">
             <h6>Filtrar Por</h6>
             <h6>Busqueda</h6>
         </div>
-
+       
         <div class="d-flex gap-5">
 
             <select style="width:200px"@bind="Filtro">
@@ -21,11 +22,11 @@
                 <option>Id Prestamo</option>
                 <option>Libro</option>
             </select>
-
+            
             <input type="text" placeholder="Buscar"@bind="ValorFiltro" />
             <button class="btn btn-warning bi bi-search"></button>
         </div>
-
+        @*Tabla con el Quickgrid*@
         <div>
             <QuickGrid Items="devolucion.AsQueryable()" class="table table-bordered">
                 <PropertyColumn Property="D=>D.IdDevolucion" title="IdDevolucion" Sortable="true"/> 
@@ -33,24 +34,43 @@
                 <PropertyColumn Property="D => D.Libro" title="Libro" Sortable="true" />
                 <PropertyColumn Property="D => D.FechaDevolucion" title="FechaDevolucion" Sortable="true" />  
                 <TemplateColumn title="Opciones ">
-                    <button class="btn btn-warning bi bi-pencil"></button>
-                    <button class="btn btn-danger bi bi-trash"@onclick="()=>Eliminar(context.IdDevolucion) "></button>
+                    <button class="btn btn-warning bi bi-pencil" @onclick="()=>Pagina(context.IdDevolucion)"></button>
+                    <button class="btn btn-danger bi bi-trash" data-bs-toggle="modal" data-bs-target="#Eliminar" @onclick="()=> IdEliminar=context.IdDevolucion"></button>
                 </TemplateColumn>
             </QuickGrid>
            
         </div>
+        @*Contar las cantidad de registro*@
         <h7>Cantidad de Registro de Devolucion: @devolucion.Count</h7>
     </div>
 </div>
-        
-        
-  
+@*Panel de modal(Confirmacion de eliminacion)*@
+<div class="modal fade" id="Eliminar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Eliminacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
+            <div class="modal-body">
+                <h7>Seguro que quieres eliminar?</h7>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"> Cancelar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Confirmar</button>
+
+            </div>
+        </div>      
+    </div>
+</div>
 @code {
 
     public List<Devolucion> devolucion { get; set; } = [];
     public string ValorFiltro { get; set; } = string.Empty;
     public string Filtro { get; set; } = string.Empty;
+    public int IdEliminar{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,10 +98,20 @@
 
         }
     }
-    public async Task Eliminar(int id)
+    public async Task Eliminar()
     {
-        await devolucionService.Eliminar(id);
+        await devolucionService.Eliminar(IdEliminar);
         devolucion = await devolucionService.GetList(D => true);
-    }      
+    }
+    public void Pagina(int id)
+    {
+        navegation.NavigateTo($"/Devolucion/{id}");
+        
+    }
+    public void PaginaRegistro()
+    {
+        navegation.NavigateTo("/Devolucion/Registro");
+
+    }
 
 }

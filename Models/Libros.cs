@@ -13,4 +13,6 @@ namespace Tarea1.Models;
 
         [Required(ErrorMessage = "El campo Anio no puede estar vacio")]
         public int Anio { get; set; }
-    }
+        public int LibroCantidad { get; set; }
+
+}

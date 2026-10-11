@@ -1,11 +1,12 @@
 ﻿@page "/Devolucion/{id:int}"
 @rendermode InteractiveServer
+@*Panel*@
 <div class="container">
     <h4 style="text-center">Registro de Devolucion</h4>
     <div class="card border-3 p-3" style="height:400px">
+        @*Formulacion con las validaciones*@
         <EditForm Model="devolucionEditar" OnValidSubmit="GuardarEditar" FormName="Editar">
             <DataAnnotationsValidator />
-
             <div class="mb-4">
                 <label>Id Prestamo</label>
                 <br />
@@ -26,20 +27,14 @@
                 <InputDate @bind-Value="devolucionEditar.FechaDevolucion" class="form-control" />
                 <ValidationMessage class="text-danger" For="@(() => devolucionEditar.FechaDevolucion)" />
             </div>
-
+            @*Los botones *@
             <div class="d-flex justify-content-center gap-3 mb-4">
-                <button type="button" class="btn btn-warning bi bi-journal-album">Consultar</button>
+                <button type="button" class="btn btn-warning bi bi-journal-album" @onclick="Pagina">Consultar</button>
                 <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
-
             </div>
-
         </EditForm>
-
     </div>
-
 </div>
-
-
 @code {
     public List<Devolucion> devolucion { get; set; } = [];
     public Devolucion devolucionEditar { get; set; } = new();
@@ -51,7 +46,6 @@
     {
         await Edita(id);
     }
-
     public async Task Edita(int id)
     {
         var Devolucion = await devolucionService.Buscar(id);
@@ -65,6 +59,8 @@
         await devolucionService.Editar(devolucionEditar);
         devolucion = await devolucionService.GetList(D => true);
     }
+    public void Pagina()
+    {
+        navegation.NavigateTo("/Devolucion/Consultar");
+    }
 }
-
-

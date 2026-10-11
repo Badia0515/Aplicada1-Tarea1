@@ -1,9 +1,10 @@
 ﻿@page "/Devolucion/Registro"
 @rendermode InteractiveServer
-
+@*Panel*@
 <div class="container">
   <h4 style="text-center">Registro de Devolucion</h4>
     <div class="card border-3 p-3" style="height:400px">
+        @*Formulacion con las validaciones*@
         <EditForm Model="devolucion" OnValidSubmit="Guardar" FormName="Registro">
             <DataAnnotationsValidator/>
 
@@ -27,9 +28,9 @@
                 <InputDate @bind-Value="devolucion.FechaDevolucion" class="form-control" />
                 <ValidationMessage class="text-danger" For="@(() => devolucion.FechaDevolucion)" />
             </div>
-
+            @*Los botones *@
             <div class="d-flex justify-content-center gap-3 mb-4">
-                <button type="button" class="btn btn-warning bi bi-journal-album">Consultar</button>
+                <button type="button" class="btn btn-warning bi bi-journal-album" @onclick="Pagina">Consultar</button>
                 <button type="submit" class="btn btn-primary bi bi-floppy">Guardar</button>
                
             </div>
@@ -57,5 +58,8 @@
         }
 
     }
-    
+    public void Pagina()
+    {
+        navegation.NavigateTo("/Devolucion/Consultar");
+    }
 }
