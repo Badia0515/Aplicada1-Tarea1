@@ -40,12 +40,10 @@ namespace Tarea1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("prestamoIdPrestamo")
-                        .HasColumnType("int");
-
                     b.HasKey("IdDevolucion");
 
-                    b.HasIndex("prestamoIdPrestamo");
+                    b.HasIndex("IdPrestamo")
+                        .IsUnique();
 
                     b.ToTable("devolucion");
                 });
@@ -94,6 +92,9 @@ namespace Tarea1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LibroCantidad")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -128,10 +129,17 @@ namespace Tarea1.Migrations
             modelBuilder.Entity("Tarea1.Models.Devolucion", b =>
                 {
                     b.HasOne("Tarea1.Models.Prestamo", "prestamo")
-                        .WithMany()
-                        .HasForeignKey("prestamoIdPrestamo");
+                        .WithOne("devolucion")
+                        .HasForeignKey("Tarea1.Models.Devolucion", "IdPrestamo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("prestamo");
+                });
+
+            modelBuilder.Entity("Tarea1.Models.Prestamo", b =>
+                {
+                    b.Navigation("devolucion");
                 });
 #pragma warning restore 612, 618
         }

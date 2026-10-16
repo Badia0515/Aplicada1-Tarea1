@@ -1,0 +1,32 @@
+﻿@page "/Entrada"
+
+<div class="container">
+    <div class="card border-3">
+        <h4>Registro de entradas de libros</h4>
+    </div>
+    <div class="card border-3">
+        <EditForm Model="entrada" OnValidSubmit="" FormName="Entrada">
+            <DataAnnotationsValidator/>
+
+            <div class="mb-3">
+                <label> Fecha de Entrada</label>
+                <InputDate @bind-Value="entrada.FechaDeEntrada"/>
+                <ValidationMessage class="text-bg-danger" For="@(()=>entrada.FechaDeEntrada)"/>
+            </div>
+
+            <div class="mb-3">
+                <label> Copcepto</label>
+                <br />
+                <InputText @bind-Value="entrada.Concepto" />
+                <ValidationMessage class="text-bg-danger" For="@(() => entrada.Concepto)" />
+            </div>
+        </EditForm>
+    </div>
+
+</div>
+
+@code {
+
+    public Entradas entrada { get; set; } = new();
+
+}

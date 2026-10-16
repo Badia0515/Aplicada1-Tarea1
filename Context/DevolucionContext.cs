@@ -17,6 +17,10 @@ namespace Tarea1.Context;
 
     public DbSet<Devolucion> devolucion { get; set; }
 
+    public DbSet<Entradas> entradas { get; set; }
+
+    public DbSet<EntradasDetalles> entradasDetalles { get; set; }
+
 }
 
 
