@@ -1,6 +1,6 @@
 ﻿@page "/Entrada"
 @inject EntradasService entradasService
-<EditForm Model="entrada" OnValidSubmit="" FormName="Entrada">
+<EditForm Model="entrada" OnValidSubmit="Guardar" FormName="Entrada">
     <DataAnnotationsValidator />
 
 <div class="container">
@@ -25,7 +25,31 @@
       
            <div class="border border p-3 mt-3">
                 <h4>Detalle del Registro</h4>
-                <LibrosPicker libros="libros" OnLibroSelecte="Hande" />
+                <LibrosPicker libros="libros" OnLibroSelecte="HandleLibroSelected" />
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Libros</th>
+                            <th>Cantidad</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var detalles in entrada.entradasDetalles)
+                        {
+                            <tr>
+                                <td> @detalles.IdLibros</td>
+                                <td> @detalles.Cantidad</td>
+                                <th>
+                                    <button class="btn btn bg-danger" @onclick="()=>EliminarDetalle(detalles)">Eliminar</button>
+                                </th>
+                            </tr>
+                            
+                        }
+                    </tbody>
+                </table>
+                
             </div>
         </div>
     </div>
@@ -34,11 +58,39 @@
 
     public Entradas entrada { get; set; } = new();
     public EntradasDetalles entradasDetalles { get; set; } = new();
+    public string Mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        entrada = await entradasService.GetList(L => true);
+        entrada.FechaDeEntrada = DateTime.Now;
+    }
+
+    public async Task HandleLibroSelected((Libros libros,int cantidad)selection)
+    {
+        var Existe = entrada.entradasDetalles.Any(L => L.IdLibros == selection.libros.IdLibro);
+        if (Existe)
+        {
+            return;
+        }
+        var Detalle = new EntradasDetalles
+            {
+                IdLibros = selection.libros.IdLibro,
+                Cantidad = selection.cantidad
+            };
+        entrada.entradasDetalles.Add(Detalle);
+        await Task.CompletedTask;
+    }
 
     public async Task Guardar()
     {
-        var result = await entradasService.Buscar()
+        var result = await entradasService.Guardar(entrada);
 
+    }
+    public void EliminarDetalle(EntradasDetalles detalle)
+    {
+        entrada.entradasDetalles.Remove(detalle);
+        entradasDetalles = detalle;
     }
 
 }
