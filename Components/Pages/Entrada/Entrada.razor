@@ -1,18 +1,19 @@
 ﻿@page "/Entrada"
+@inject EntradasService entradasService
+<EditForm Model="entrada" OnValidSubmit="" FormName="Entrada">
+    <DataAnnotationsValidator />
 
 <div class="container">
+        <div class="card border-3"> 
+            <h4>Registro de entradas de libros</h4>
+        </div> 
     <div class="card border-3">
-        <h4>Registro de entradas de libros</h4>
-    </div>
-    <div class="card border-3">
-        <EditForm Model="entrada" OnValidSubmit="" FormName="Entrada">
-            <DataAnnotationsValidator/>
-
             <div class="mb-3">
                 <label> Fecha de Entrada</label>
                 <InputDate @bind-Value="entrada.FechaDeEntrada"/>
                 <ValidationMessage class="text-bg-danger" For="@(()=>entrada.FechaDeEntrada)"/>
             </div>
+            
 
             <div class="mb-3">
                 <label> Copcepto</label>
@@ -20,13 +21,24 @@
                 <InputText @bind-Value="entrada.Concepto" />
                 <ValidationMessage class="text-bg-danger" For="@(() => entrada.Concepto)" />
             </div>
-        </EditForm>
+            
+      
+           <div class="border border p-3 mt-3">
+                <h4>Detalle del Registro</h4>
+                <LibrosPicker libros="libros" OnLibroSelecte="Hande" />
+            </div>
+        </div>
     </div>
-
-</div>
-
+</EditForm>
 @code {
 
     public Entradas entrada { get; set; } = new();
+    public EntradasDetalles entradasDetalles { get; set; } = new();
+
+    public async Task Guardar()
+    {
+        var result = await entradasService.Buscar()
+
+    }
 
 }

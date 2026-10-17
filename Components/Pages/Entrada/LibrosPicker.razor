@@ -1,0 +1,46 @@
+﻿<div class="col-auto input-group align-items-center">
+    <label class="col-form-label input-group-text">Seleciones</label>
+
+    <InputSelect class="form-control form-select" @bind-Value="IdLibros">
+    <option>Seleciones una</option>
+    @foreach(var Libros in libros)
+    {
+        <option value="@Libros.IdLibro">  @Libros.Titulo</option>
+     }
+    </InputSelect>
+    <InputNumber class="form-control" @bind-Value="Cantidad"/>
+    <button type="button" class="btn btn bg-success bi bi-plus" @onclick="TriggerSelected"></button>
+</div>
+
+@if(Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @Error
+    </div>
+}
+
+@code {
+    public List<Libros> libros { get; set; } = [];
+
+    [Parameter]
+    public int IdLibros{ get; set; }
+
+    [Parameter]
+    public int Cantidad{ get; set; }
+
+    [Parameter]
+    public EventCallback<(Libros libros,int Cantidad)>OnLibroSelecte { get; set; }
+
+    public string Error{ get; set; }
+
+    public async Task TriggerSelected()
+    {
+        Error = null;
+        if (IdLibros >0 && Cantidad > 0)
+        {
+            var LibroSelecionado = libros.Single(L => L.IdLibro == IdLibros);
+            await OnLibroSelecte.InvokeAsync((LibroSelecionado, Cantidad));
+        }
+    }
+
+}
