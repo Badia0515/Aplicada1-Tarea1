@@ -55,14 +55,14 @@
     </div>
 </EditForm>
 @code {
-
+    public List<Libros> libros { get; set; } = [];
     public Entradas entrada { get; set; } = new();
     public EntradasDetalles entradasDetalles { get; set; } = new();
     public string Mensaje { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        entrada = await entradasService.GetList(L => true);
+        libros = await librosService.GetList(L => true);
         entrada.FechaDeEntrada = DateTime.Now;
     }
 
