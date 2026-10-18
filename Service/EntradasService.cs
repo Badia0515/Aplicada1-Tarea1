@@ -35,9 +35,17 @@ namespace Tarea1.Service
         public async Task<Result> Eliminar(int id)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
-            var Eliminar = await context.entradas.Where(E => E.EntradaID == id).ExecuteDeleteAsync();
-            return Result.Success(Eliminar);
-            
+            var Entradas = await context.entradas.Include(E => E.entradasDetalles).FirstOrDefaultAsync(E => E.EntradaID == id);
+            if(Entradas == null)
+            {
+                return Result.Success(false);
+            }
+            await AfectarCantidad(Entradas.entradasDetalles.ToArray(), TipoOperacion.Resta);
+            context.entradasDetalles.RemoveRange(Entradas.entradasDetalles);
+            context.entradas.Remove(Entradas);
+            var Cantidad = await context.SaveChangesAsync();
+            return Result.Success(Cantidad > 0);
+
         }
 
         public async Task<Result<List<Entradas>>> GetList(Expression<Func<Entradas, bool>> criterio)
@@ -49,8 +57,30 @@ namespace Tarea1.Service
         public async Task<bool> Insertar(Entradas entidad)
         {
             await using var context = await contextFactory.CreateDbContextAsync();
+            await AfectarCantidad(entidad.entradasDetalles.ToArray(), TipoOperacion.Suma);
             context.entradas.Add(entidad);
             return await context.SaveChangesAsync() > 0;
+        }
+        public async Task AfectarCantidad(EntradasDetalles[] detalles , TipoOperacion tipooperacion)
+        {
+            await using var context = await contextFactory.CreateDbContextAsync();
+            foreach(var Detalle in detalles)
+            {
+                var libros = await context.Libros.FirstOrDefaultAsync(L => L.IdLibro == Detalle.IdLibros);
+                if(libros != null) {
+
+                    if (tipooperacion == TipoOperacion.Suma)
+                    {
+                        libros.LibroCantidad += Detalle.Cantidad;
+                    }
+                    else
+                    {
+                        libros.LibroCantidad -= Detalle.Cantidad;
+                    }
+                }
+
+            }
+            await context.SaveChangesAsync();
         }
 
         public async Task<bool> Editar(Entradas entidad)
@@ -58,6 +88,10 @@ namespace Tarea1.Service
             await using var context = await contextFactory.CreateDbContextAsync();
             context.entradas.Update(entidad);
             return await context.SaveChangesAsync() > 0;
+        }
+        public enum TipoOperacion
+        {
+            Suma,Resta
         }
 
         

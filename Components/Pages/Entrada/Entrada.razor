@@ -1,5 +1,6 @@
 ﻿@page "/Entrada"
 @inject EntradasService entradasService
+@rendermode InteractiveServer
 <EditForm Model="entrada" OnValidSubmit="Guardar" FormName="Entrada">
     <DataAnnotationsValidator />
 
@@ -9,11 +10,15 @@
         </div> 
     <div class="card border-3">
             <div class="mb-3">
+                <label> IdEntrada</label>
+                <InputNumber @bind-Value="entrada.EntradaID" />
+            </div>
+
+            <div class="mb-3">
                 <label> Fecha de Entrada</label>
                 <InputDate @bind-Value="entrada.FechaDeEntrada"/>
                 <ValidationMessage class="text-bg-danger" For="@(()=>entrada.FechaDeEntrada)"/>
-            </div>
-            
+            </div>    
 
             <div class="mb-3">
                 <label> Copcepto</label>

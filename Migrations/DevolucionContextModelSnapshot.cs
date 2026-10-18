@@ -17,7 +17,7 @@ namespace Tarea1.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -46,6 +46,58 @@ namespace Tarea1.Migrations
                         .IsUnique();
 
                     b.ToTable("devolucion");
+                });
+
+            modelBuilder.Entity("Tarea1.Models.Entradas", b =>
+                {
+                    b.Property<int>("EntradaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EntradaID"));
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaDeEntrada")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Tota")
+                        .HasColumnType("int");
+
+                    b.HasKey("EntradaID");
+
+                    b.ToTable("entradas");
+                });
+
+            modelBuilder.Entity("Tarea1.Models.EntradasDetalles", b =>
+                {
+                    b.Property<int>("IdEntradaDetalle")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEntradaDetalle"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EntradaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEntrada")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdLibros")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdEntradaDetalle");
+
+                    b.HasIndex("EntradaID");
+
+                    b.HasIndex("IdLibros");
+
+                    b.ToTable("entradasDetalles");
                 });
 
             modelBuilder.Entity("Tarea1.Models.Estudiante", b =>
@@ -135,6 +187,28 @@ namespace Tarea1.Migrations
                         .IsRequired();
 
                     b.Navigation("prestamo");
+                });
+
+            modelBuilder.Entity("Tarea1.Models.EntradasDetalles", b =>
+                {
+                    b.HasOne("Tarea1.Models.Entradas", "Entradas")
+                        .WithMany("entradasDetalles")
+                        .HasForeignKey("EntradaID");
+
+                    b.HasOne("Tarea1.Models.Libros", "Libros")
+                        .WithMany()
+                        .HasForeignKey("IdLibros")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Entradas");
+
+                    b.Navigation("Libros");
+                });
+
+            modelBuilder.Entity("Tarea1.Models.Entradas", b =>
+                {
+                    b.Navigation("entradasDetalles");
                 });
 
             modelBuilder.Entity("Tarea1.Models.Prestamo", b =>
