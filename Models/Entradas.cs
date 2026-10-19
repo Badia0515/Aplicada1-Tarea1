@@ -14,7 +14,6 @@ namespace Tarea1.Models
         [Required(ErrorMessage = "Debes de llenar este campo consepto")]
         public string Concepto { get; set; }
 
-        [Range(1,int.MaxValue,ErrorMessage ="Debes ser mayor que 1")]
         public int Tota { get; set; }
 
         [InverseProperty(nameof(EntradasDetalles.Entradas))]

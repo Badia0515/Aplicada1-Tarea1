@@ -1,0 +1,105 @@
+﻿@page "/Entrada/Consultar"
+@rendermode InteractiveServer
+<div class="container">
+
+    <div class="d-flex justify-content-between ">
+        <h4>Consultar Devolucion</h4>
+        <button class="btn btn-primary bi bi-plus" @onclick="PaginaNuevo">Crear</button>
+    </div>
+    @*Filtrar*@
+    <div class="card border-3">
+        <div class="d-flex" style="gap:200px">
+            <h6>Filtrar Por</h6>
+            <h6>Busqueda</h6>
+        </div>     
+        <div class="d-flex gap-5">
+            <select style="width:200px"@bind="Filtrar">
+                <option>IDEntrada</option>
+               
+            </select>
+            <input type="text" placeholder="Buscar"@bind="ValorFiltrar" />
+            <button class="btn btn-warning bi bi-search"@onclick="Filtro"></button>
+        </div>
+        @*Tabla*@
+        <QuickGrid Items="entrada.AsQueryable()" class="table table-bordered">
+            <PropertyColumn Property="D=>D.EntradaID" Title="IDEntrada" Sortable="true"/>
+            <PropertyColumn Property="D => D.Concepto" Title="Concepto" Sortable="true" />
+            <PropertyColumn Property="D => D.FechaDeEntrada" Title="Fecha de Entrada" Sortable="true" />
+            <PropertyColumn Property="D => D.Tota" Title="Total" Sortable="true" />
+            @*Botone*@
+            <TemplateColumn title="Opciones">
+                <div>
+                    <button class="btn btn-warning bi bi-pencil"@onclick="()=>Pagina(context.EntradaID)"></button>
+                    <button class="btn btn-danger bi bi-trash" data-bs-toggle="modal" data-bs-target="#Eliminar" @onclick="() => IdEliminar = context.EntradaID"></button>
+                </div>
+            </TemplateColumn>
+
+        </QuickGrid>
+    </div>
+</div>
+
+@*Panel de modal(Confirmacion de eliminacion)*@
+<div class="modal fade" id="Eliminar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Eliminacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <h7>Seguro que quieres eliminar?</h7>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"> Cancelar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Confirmar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public List<Entradas> entrada { get; set; } = [];
+    public string ValorFiltrar { get; set; } = string.Empty;
+    public string Filtrar { get; set; } = string.Empty;
+    public int IdEliminar { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await entradasService.GetList(E => true);
+        entrada = result.Value;
+    }
+    public async Task Filtro()
+    {
+        if (ValorFiltrar.Trim() != "")
+        {
+            if(Filtrar == "IDEntrada")
+            {
+                int.TryParse(ValorFiltrar, out int id);
+                var result = await entradasService.GetList(E => E.EntradaID == id);
+                entrada = result.Value;
+            }
+        }
+    }
+
+    public async Task Eliminar()
+    {
+        await entradasService.Eliminar(IdEliminar);
+        var result = await entradasService.GetList(E=>true);
+        entrada = result.Value;
+    }
+    public void Pagina(int id)
+    {
+        navegation.NavigateTo($"/Entrada/Consultar/Edicion/{id}");
+        
+    }
+    public void PaginaNuevo()
+    {
+        navegation.NavigateTo($"/Entrada");
+
+    }
+
+}

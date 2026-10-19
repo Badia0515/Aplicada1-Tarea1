@@ -30,6 +30,7 @@
                         <th>Titulo</th>
                         <th>Autor</th>
                         <th>Año</th>
+                        <th>Cantidad</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
@@ -42,6 +43,7 @@
                             <td>@Libros.Titulo</td>
                             <td>@Libros.Autor</td>
                             <td>@Libros.Anio</td>
+                            <td>@Libros.LibroCantidad</td>
                             <button class="btn btn-secondary"@onclick="()=> Eliminar(Libros.IdLibro)">Eliminar</button>
                             <button class="btn btn-warning" @onclick="()=> Editar(Libros.IdLibro)">Editar</button>
                             

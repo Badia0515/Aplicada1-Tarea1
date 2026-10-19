@@ -8,7 +8,7 @@ namespace Tarea1.Models
     {
         [Key]
         public int IdEntradaDetalle { get; set; }
-
+        //El idEntrada no es  necesario por que ya esta identrada  
         public int IdEntrada { get; set; }
 
         public int IdLibros { get; set; }

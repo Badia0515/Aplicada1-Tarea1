@@ -1,6 +1,6 @@
 ﻿@page "/Entrada"
-@inject EntradasService entradasService
 @rendermode InteractiveServer
+@*Validacion*@
 <EditForm Model="entrada" OnValidSubmit="Guardar" FormName="Entrada">
     <DataAnnotationsValidator />
 
@@ -26,12 +26,11 @@
                 <InputText @bind-Value="entrada.Concepto" />
                 <ValidationMessage class="text-bg-danger" For="@(() => entrada.Concepto)" />
             </div>
-            
-      
+            @*EntradaDetalle*@
            <div class="border border p-3 mt-3">
                 <h4>Detalle del Registro</h4>
                 <LibrosPicker libros="libros" OnLibroSelecte="HandleLibroSelected" />
-
+                @*Tabla para mostrar el EntradaDetalle*@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -47,6 +46,7 @@
                                 <td> @detalles.IdLibros</td>
                                 <td> @detalles.Cantidad</td>
                                 <th>
+                                    @*Boton*@
                                     <button class="btn btn bg-danger" @onclick="()=>EliminarDetalle(detalles)">Eliminar</button>
                                 </th>
                             </tr>
@@ -55,6 +55,9 @@
                     </tbody>
                 </table>
                 
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button type="submit" class="btn btn-success bi bi-plus">Guardar</button>
             </div>
         </div>
     </div>
@@ -89,7 +92,9 @@
 
     public async Task Guardar()
     {
+        entrada.Tota = entrada.entradasDetalles.Sum(E => E.Cantidad);
         var result = await entradasService.Guardar(entrada);
+        navegation.NavigateTo("/Entrada/Consultar");
 
     }
     public void EliminarDetalle(EntradasDetalles detalle)
@@ -97,5 +102,6 @@
         entrada.entradasDetalles.Remove(detalle);
         entradasDetalles = detalle;
     }
+    
 
 }

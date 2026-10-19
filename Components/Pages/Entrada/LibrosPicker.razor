@@ -1,17 +1,20 @@
-﻿<div class="col-auto input-group align-items-center">
+﻿@rendermode InteractiveServer
+@*Panel para EntradaDetalle*@
+<div class="col-auto input-group align-items-center">
     <label class="col-form-label input-group-text">Seleciones</label>
 
     <InputSelect class="form-control form-select" @bind-Value="IdLibros">
     <option>Seleciones una</option>
+        @*Busqueda de libros*@
     @foreach(var Libros in libros)
     {
         <option value="@Libros.IdLibro">  @Libros.Titulo</option>
      }
     </InputSelect>
     <InputNumber class="form-control" @bind-Value="Cantidad"/>
-    <button type="button" class="btn btn bg-success bi bi-plus" @onclick="TriggerSelected"></button>
+    <button type="button" class="btn btn bg-primary  bi bi-plus" @onclick="TriggerSelected"></button>
 </div>
-
+@*Error*@
 @if(Error != null)
 {
     <div class="alert alert-danger" role="alert">
