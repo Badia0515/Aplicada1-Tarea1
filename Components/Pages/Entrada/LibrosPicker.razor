@@ -42,7 +42,7 @@
         Error = null;
         if (IdLibros >0 && Cantidad > 0)
         {
-            var LibroSelecionado = libros.Single(L => L.IdLibro == IdLibros);
+            var LibroSelecionado     = libros.Single(L => L.IdLibro == IdLibros);
             await OnLibroSelecte.InvokeAsync((LibroSelecionado, Cantidad));
         }
         else
