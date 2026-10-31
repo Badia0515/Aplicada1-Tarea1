@@ -10,4 +10,6 @@ C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0
 C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0\refint\Tarea6.Data.dll
 C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0\Tarea6.Data.pdb
 C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0\ref\Tarea6.Data.dll
-C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0\Tarea6.D.44A63268.Up2Date
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\bin\Debug\net10.0\Tarea6.Data.runtimeconfig.json
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0\Tarea6.Data.genruntimeconfig.cache
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Data\obj\Debug\net10.0\Tarea6.Data.csproj.AssemblyReference.cache
