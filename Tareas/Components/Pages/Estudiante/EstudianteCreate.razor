@@ -35,12 +35,7 @@
 
     public async Task Guardar()
     {
-        var Exixte = await estudinateService.GetList(L => L.Nombre == estudiante.Nombre);
-        if (Exixte.Count > 0)
-        {
-            Mesaje = "Ya el nombre esta registro".ToUpper();
-        }
-        await estudinateService.Guardar(estudiante);
+        var Result = await estudianteService.Guardar(estudiante);
     }
     public void Navegacion()
     {

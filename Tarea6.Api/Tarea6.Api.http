@@ -1,6 +1,25 @@
-@Tarea6.Api_HostAddress = http://localhost:5090
+@Tarea6.Api_HostAddress = https://localhost:7029
 
-GET {{Tarea6.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+
+GET {{Tarea6.Api_HostAddress}}/api/estudiantes
+
+###
+
+POST {{Tarea6.Api_HostAddress}}/api/estudiantes
+Content-Type: application/json
+
+{
+  //Estudiante
+}
+
+###
+
+@id=0
+PUT {{Tarea6.Api_HostAddress}}/api/estudiantes/{{id}}
+Content-Type: application/json
+
+{
+  //Estudiante
+}
 
 ###

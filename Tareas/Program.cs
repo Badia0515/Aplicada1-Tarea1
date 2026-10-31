@@ -2,6 +2,7 @@ using Tarea1.Context;
 using Microsoft.EntityFrameworkCore;
 using Tarea1.Components;
 using Tarea1.Service;
+using Tarea6.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 var ConStr = builder.Configuration.GetConnectionString("Conexion");
 builder.Services.AddDbContextFactory<DevolucionContext>(options => options.UseSqlServer(ConStr));
-builder.Services.AddScoped<EstudianteService>();
+builder.Services.AddTransient<EstudianteService>();
 builder.Services.AddScoped<LibrosService>();
 builder.Services.AddScoped<PrestamoService>();
 builder.Services.AddScoped<DevolucionService>();
