@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "Gzs2jmqFX4w=",
+  "success": true,
+  "projectFilePath": "C:\\Progrsmscion Proyecto Aplicada\\Aplicada1-Tarea1\\Tarea6.Api\\Tarea6.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Euwin\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.14\\microsoft.aspnetcore.openapi.10.0.14.nupkg.sha512",
+    "C:\\Users\\Euwin\\.nuget\\packages\\microsoft.openapi\\2.12.2\\microsoft.openapi.2.12.2.nupkg.sha512",
+    "C:\\Users\\Euwin\\.nuget\\packages\\scalar.aspnetcore\\2.18.7\\scalar.aspnetcore.2.18.7.nupkg.sha512"
+  ],
+  "logs": []
+}

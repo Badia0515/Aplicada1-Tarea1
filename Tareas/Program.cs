@@ -4,7 +4,6 @@ using Tarea1.Components;
 using Tarea1.Service;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 

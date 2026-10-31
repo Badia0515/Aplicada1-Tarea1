@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "Tarea6.Data/1.0.0": {
+        "runtime": {
+          "Tarea6.Data.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Tarea6.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
