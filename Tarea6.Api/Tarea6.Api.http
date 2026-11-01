@@ -23,3 +23,28 @@ Content-Type: application/json
 }
 
 ###
+
+//libros
+
+
+GET {{Tarea6.Api_HostAddress}}/api/libros
+
+###
+
+POST {{Tarea6.Api_HostAddress}}/api/libros
+Content-Type: application/json
+
+{
+  //Libros
+}
+
+###
+
+PUT {{Tarea6.Api_HostAddress}}/api/libros/{{id}}
+Content-Type: application/json
+
+{
+  //Libros
+}
+
+###
