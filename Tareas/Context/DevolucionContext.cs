@@ -11,7 +11,6 @@ namespace Tarea1.Context;
     }
     public DbSet<Libros> Libros { get; set; }
 
-    public DbSet<Estudiante> Estudiantes { get; set; }
 
     public DbSet<Prestamo> Prestamos { get; set; }
 

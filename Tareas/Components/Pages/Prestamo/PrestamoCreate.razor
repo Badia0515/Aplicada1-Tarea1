@@ -44,7 +44,7 @@
         var ExisteEstudiante = await estudianteService.GetList(L => L.EstudianteId== prestamo.IdEstudiante);
         var ExisteLibro = await librosService.GetList(L => L.IdLibro== prestamo.IdLibro);
         var existePrestamo = await prestamoservice.GetList(L => L.IdEstudiante == prestamo.IdEstudiante);
-        if (ExisteEstudiante.Count == 0)
+        if (ExisteEstudiante.Value.Count == 0)
         {
             MensajeError = "EL Estudiante no esta registrado";
             return;

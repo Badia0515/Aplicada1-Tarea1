@@ -42,16 +42,16 @@
     public async Task Editar(int id)
     {
         var Estudiante = await estudianteService.Buscar(id);
-        if(Estudiante != null)
+        if(Estudiante.IsSuccess)
         {
-            estudianteEditar = Estudiante;
+            estudianteEditar = Estudiante.Value;
         }
+       
 
     }
     public async Task EdicionGuardar()
     {
-        await estudianteService.Guardar(estudianteEditar);
-        estudiantes = await estudianteService.GetList(L => true);
+        var Result = await estudianteService.Editar(estudianteEditar); 
     }
     public void Navegacion()
     {

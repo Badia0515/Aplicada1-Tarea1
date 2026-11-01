@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Tarea6.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+572ab2d6196280315996053ae6f0f7d27d443e48")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f05ead1fc1f3f42ac2ce233544dfd86e31b7a7d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Tarea6.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Tarea6.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
