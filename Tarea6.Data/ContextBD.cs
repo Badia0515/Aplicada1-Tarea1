@@ -10,8 +10,8 @@ public partial class ContextBD : DbContext
         : base(options)
     {
     }
-
     public virtual DbSet<Estudiante> Estudiantes { get; set; }
+    public virtual DbSet<Libros> Libros { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

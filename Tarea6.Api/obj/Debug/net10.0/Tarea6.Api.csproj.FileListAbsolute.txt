@@ -284,4 +284,3 @@ C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Api\bin\Debug\net10.0\
 C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Api\bin\Debug\net10.0\Aplicada1.Core.dll
 C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Api\bin\Debug\net10.0\Tarea6.Services.dll
 C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Api\bin\Debug\net10.0\Tarea6.Services.pdb
-C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
