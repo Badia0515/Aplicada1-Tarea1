@@ -12,6 +12,7 @@ public partial class ContextBD : DbContext
     }
     public virtual DbSet<Estudiante> Estudiantes { get; set; }
     public virtual DbSet<Libros> Libros { get; set; }
+    public virtual DbSet<Prestamo> Prestamos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

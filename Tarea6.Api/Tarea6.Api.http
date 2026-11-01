@@ -45,6 +45,32 @@ Content-Type: application/json
 
 {
   //Libros
+
+}
+
+###
+
+//prestamos
+
+
+GET {{Tarea6.Api_HostAddress}}/api/prestamo
+
+###
+
+POST {{Tarea6.Api_HostAddress}}/api/prestamo
+Content-Type: application/json
+
+{
+  //Prestamo
+}
+
+###
+
+PUT {{Tarea6.Api_HostAddress}}/api/prestamo/{{id}}
+Content-Type: application/json
+
+{
+  //Prestamo
 }
 
 ###

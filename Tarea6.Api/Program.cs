@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContextFactory<ContextBD>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Conexion")));
 builder.Services.AddTransient<EstudianteService>();
+builder.Services.AddTransient<LibrosService>();
+builder.Services.AddTransient<PrestamoService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
