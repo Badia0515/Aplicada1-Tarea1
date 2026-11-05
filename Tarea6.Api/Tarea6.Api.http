@@ -1,0 +1,76 @@
+@Tarea6.Api_HostAddress = https://localhost:7029
+
+
+GET {{Tarea6.Api_HostAddress}}/api/estudiantes
+
+###
+
+POST {{Tarea6.Api_HostAddress}}/api/estudiantes
+Content-Type: application/json
+
+{
+  //Estudiante
+}
+
+###
+
+@id=0
+PUT {{Tarea6.Api_HostAddress}}/api/estudiantes/{{id}}
+Content-Type: application/json
+
+{
+  //Estudiante
+}
+
+###
+
+//libros
+
+
+GET {{Tarea6.Api_HostAddress}}/api/libros
+
+###
+
+POST {{Tarea6.Api_HostAddress}}/api/libros
+Content-Type: application/json
+
+{
+  //Libros
+}
+
+###
+
+PUT {{Tarea6.Api_HostAddress}}/api/libros/{{id}}
+Content-Type: application/json
+
+{
+  //Libros
+
+}
+
+###
+
+//prestamos
+
+
+GET {{Tarea6.Api_HostAddress}}/api/prestamo
+
+###
+
+POST {{Tarea6.Api_HostAddress}}/api/prestamo
+Content-Type: application/json
+
+{
+  //Prestamo
+}
+
+###
+
+PUT {{Tarea6.Api_HostAddress}}/api/prestamo/{{id}}
+Content-Type: application/json
+
+{
+  //Prestamo
+}
+
+###

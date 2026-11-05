@@ -1,0 +1,73 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Sistema de Prestamo</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="libros/Consultar" Match="NavLinkMatch.All">
+                <span class="bi bi-book-fill"style="font-size:25px;  position:relative; top:-10px;" aria-hidden="true"></span> Libros
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="libros/Registra">
+                <span class="bi bi-journal-text"style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Registrar Libro
+            </NavLink>
+        </div>
+
+     @* <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Estudiante/Crear">
+                <span class="bi bi-person-fill"style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Registrar Estudiante
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Estudiante/Consulta">
+                <span class="bi bi-person-rolodex"style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Estudiante
+            </NavLink>
+        </div>
+     
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Prestamo/Crear">
+                <span class="bi bi-file-earmark-person"style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Registrar Prestamo
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Prestamo/Consultar">
+                <span class="bi bi-journal-plus"style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Prestamo
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Devolucion/Consultar">
+                <span class="bi bi-journal-album" style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Devolucion
+            </NavLink>
+        </div>
+      
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Devolucion/Registro">
+                <span class="bi bi-journal-arrow-down" style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Registrar Devolucion
+            </NavLink>
+        </div>*@ 
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/Entrada">
+                <span class="bi bi-journals" style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Entrada de Libros
+            </NavLink>
+        </div>
+
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/Entrada/Consultar">
+                <span class="bi bi-journal-text" style="font-size:25px; position:relative; top:-10px; aria-hidden="true"></span> Consultar Entrada
+            </NavLink>
+        </div>
+    </nav>
+</div>

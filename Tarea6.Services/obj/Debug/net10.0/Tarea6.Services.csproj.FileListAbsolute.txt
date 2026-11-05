@@ -1,0 +1,16 @@
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\bin\Debug\net10.0\Tarea6.Services.deps.json
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\bin\Debug\net10.0\Tarea6.Services.dll
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\bin\Debug\net10.0\Tarea6.Services.pdb
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\bin\Debug\net10.0\Tarea6.Data.dll
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\bin\Debug\net10.0\Tarea6.Data.pdb
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.csproj.AssemblyReference.cache
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.AssemblyInfoInputs.cache
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.AssemblyInfo.cs
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.csproj.CoreCompileInputs.cache
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.sourcelink.json
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.S.D754A524.Up2Date
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.dll
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\refint\Tarea6.Services.dll
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\Tarea6.Services.pdb
+C:\Progrsmscion Proyecto Aplicada\Aplicada1-Tarea1\Tarea6.Services\obj\Debug\net10.0\ref\Tarea6.Services.dll

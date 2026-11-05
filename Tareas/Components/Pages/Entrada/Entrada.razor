@@ -1,0 +1,107 @@
+﻿@page "/Entrada"
+@rendermode InteractiveServer
+@*Validacion*@
+<EditForm Model="entrada" OnValidSubmit="Guardar" FormName="Entrada">
+    <DataAnnotationsValidator />
+
+<div class="container">
+        <div class="card border-3"> 
+            <h4>Registro de entradas de libros</h4>
+        </div> 
+    <div class="card border-3">
+            <div class="mb-3">
+                <label> IdEntrada</label>
+                <InputNumber @bind-Value="entrada.EntradaID" />
+            </div>
+
+            <div class="mb-3">
+                <label> Fecha de Entrada</label>
+                <InputDate @bind-Value="entrada.FechaDeEntrada"/>
+                <ValidationMessage class="text-bg-danger" For="@(()=>entrada.FechaDeEntrada)"/>
+            </div>    
+
+            <div class="mb-3">
+                <label> Copcepto</label>
+                <br />
+                <InputText @bind-Value="entrada.Concepto" />
+                <ValidationMessage class="text-bg-danger" For="@(() => entrada.Concepto)" />
+            </div>
+            @*EntradaDetalle*@
+           <div class="border border p-3 mt-3">
+                <h4>Detalle del Registro</h4>
+                <LibrosPicker libros="libros" OnLibroSelecte="HandleLibroSelected" />
+                @*Tabla para mostrar el EntradaDetalle*@
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Libros</th>
+                            <th>Cantidad</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var detalles in entrada.entradasDetalles)
+                        {
+                            <tr>
+                                <td> @detalles.IdLibros</td>
+                                <td> @detalles.Cantidad</td>
+                                <th>
+                                    @*Boton*@
+                                    <button class="btn btn bg-danger" @onclick="()=>EliminarDetalle(detalles)">Eliminar</button>
+                                </th>
+                            </tr>
+                            
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button type="submit" class="btn btn-success bi bi-plus">Guardar</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+@code {
+    public List<Libros> libros { get; set; } = [];
+    public Entradas entrada { get; set; } = new();
+    public EntradasDetalles entradasDetalles { get; set; } = new();
+    public string Mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        libros = await librosService.GetList(L => true);
+        entrada.FechaDeEntrada = DateTime.Now;
+    }
+
+    public async Task HandleLibroSelected((Libros libros,int cantidad)selection)
+    {
+        var Existe = entrada.entradasDetalles.Any(L => L.IdLibros == selection.libros.IdLibro);
+        if (Existe)
+        {
+            return;
+        }
+        var Detalle = new EntradasDetalles
+            {
+                IdLibros = selection.libros.IdLibro,
+                Cantidad = selection.cantidad
+            };
+        entrada.entradasDetalles.Add(Detalle);
+        await Task.CompletedTask;
+    }
+
+    public async Task Guardar()
+    {
+        entrada.Tota = entrada.entradasDetalles.Sum(E => E.Cantidad);
+        var result = await entradasService.Guardar(entrada);
+        navegation.NavigateTo("/Entrada/Consultar");
+
+    }
+    public void EliminarDetalle(EntradasDetalles detalle)
+    {
+        entrada.entradasDetalles.Remove(detalle);
+        entradasDetalles = detalle;
+    }
+    
+
+}

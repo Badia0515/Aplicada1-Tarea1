@@ -1,0 +1,115 @@
+﻿@page "/Entrada/Consultar/Edicion/{id:int}"
+@rendermode InteractiveServer
+@*Validacion*@
+<EditForm Model="entradaEditar" OnValidSubmit="GuardarEditar" FormName="edicion">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card border-3">
+            <h4>Edicion de entradas de libros</h4>
+        </div>
+        <div class="card border-3">
+            <div class="mb-3">
+                <label> IdEntrada</label>
+                <InputNumber @bind-Value="entradaEditar.EntradaID" />
+            </div>
+
+            <div class="mb-3">
+                <label> Fecha de Entrada</label>
+                <InputDate @bind-Value="entradaEditar.FechaDeEntrada" />
+                <ValidationMessage class="text-bg-danger" For="@(() => entradaEditar.FechaDeEntrada)" />
+            </div>
+
+            <div class="mb-3">
+                <label> Copcepto</label>
+                <br />
+                <InputText @bind-Value="entradaEditar.Concepto" />
+                <ValidationMessage class="text-bg-danger" For="@(() => entradaEditar.Concepto)" />
+            </div>
+
+            @*EntradaDetalle*@
+            <div class="border border p-3 mt-3">
+                <h4>Detalle del Registro</h4>
+                <LibrosPicker libros="libros" OnLibroSelecte="HandleLibroSelected" />
+                @*Tabla para mostrar el EntradaDetalle*@
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Libros</th>
+                            <th>Cantidad</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var detalles in entradaEditar.entradasDetalles)
+                        {
+                            <tr>
+                                <td> @detalles.IdLibros</td>
+                                <td> @detalles.Cantidad</td>
+                                <th>
+                                    @*Boton*@
+                                    <button class="btn btn bg-danger" @onclick="() => EliminarDetalle(detalles)">Eliminar</button>
+                                </th>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button type="submit" class="btn btn-success bi bi-plus">Guardar</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public List<Entradas> entradas { get; set; } = [];
+    public Entradas entradaEditar { get; set; } = new();
+    public List<Libros> libros { get; set; } = [];
+    public EntradasDetalles entradasDetalles { get; set; } = new();
+
+    [Parameter]
+    public int id{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Editar(id);
+    }
+
+    public async Task Editar(int id)
+    {
+        var result = await entradasService.Buscar(id);
+        if(result.Value != null)
+        {
+            entradaEditar = result.Value;
+        }
+    }
+    public async Task HandleLibroSelected((Libros libros, int cantidad) selection)
+    {
+        var Detalle = new EntradasDetalles
+        {
+            IdLibros = selection.libros.IdLibro,
+            Cantidad = selection.cantidad
+        };
+        entradaEditar.entradasDetalles.Add(Detalle);
+        await Task.CompletedTask;
+    }
+
+    public async Task GuardarEditar()
+    {
+        var result = await entradasService.Editar(entradaEditar);
+        navegation.NavigateTo("/Entrada/Consultar");
+       
+    }
+    public void EliminarDetalle(EntradasDetalles detalle)
+    {
+        entradaEditar.entradasDetalles.Remove(detalle);
+        entradasDetalles = detalle;
+    }
+    
+
+
+
+}
